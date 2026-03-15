@@ -1,0 +1,17 @@
+{
+  "id": "saila",
+  "name": "사일라",
+  "quote": "",
+  "race": "렌 (RGB)",
+  "chromaValues": { "r": 0, "g": 0, "b": 0, "total": 0 },
+  "dominantColor": "미공개",
+  "tier": "미공개",
+  "iromon": "미공개",
+  "role": "세이지에서 등장.",
+  "personality": "미공개",
+  "partyRole": "미공개",
+  "nameOrigin": "sylvan(숲의). silo(저장소) = 루미나스 파편 보관자.",
+  "arcSummary": {
+    "2": "세이지 지역에서 등장."
+  }
+}

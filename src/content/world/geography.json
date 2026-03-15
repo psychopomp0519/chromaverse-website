@@ -1,0 +1,101 @@
+[
+  {
+    "id": "hakuten",
+    "name": "하쿠텐",
+    "kanji": "白点",
+    "group": "center",
+    "color": "#F1FAEE",
+    "description": "세계 중앙. 모든 색채 풍부. 빛의 수도.",
+    "characteristics": "메인 도시. 교역, 종파, 사회 중심. 전통적으로 총합 중심 위계를 유지한다.",
+    "dominantChannel": "ALL",
+    "saturationRange": ""
+  },
+  {
+    "id": "enji",
+    "name": "엔지",
+    "kanji": "焰域",
+    "group": "primary",
+    "color": "#FF6B35",
+    "description": "화산과 사막의 땅. R 에너지 +15%.",
+    "characteristics": "R 보스 및 소재 산출지. 전투와 물리 노동이 중심. R값이 높을수록 지도층에 가까워진다.",
+    "dominantChannel": "R",
+    "saturationRange": "25~50%"
+  },
+  {
+    "id": "seiji",
+    "name": "세이지",
+    "kanji": "生域",
+    "group": "primary",
+    "color": "#43AA8B",
+    "description": "거대 삼림과 습지의 땅. G 에너지 +15%.",
+    "characteristics": "G 보스 및 소재 산출지. 생태계 관리가 중심. G값이 높을수록 지도층에 가까워진다.",
+    "dominantChannel": "G",
+    "saturationRange": "25~50%"
+  },
+  {
+    "id": "meichi",
+    "name": "메이치",
+    "kanji": "明域",
+    "group": "primary",
+    "color": "#577590",
+    "description": "고산과 수정동굴의 땅. B 에너지 +15%.",
+    "characteristics": "B 보스 및 소재 산출지. 감응과 인지 활동이 중심. B값이 높을수록 지도층에 가까워진다.",
+    "dominantChannel": "B",
+    "saturationRange": "25~50%"
+  },
+  {
+    "id": "koji",
+    "name": "코지",
+    "kanji": "黄域",
+    "group": "blend",
+    "color": "#F4A261",
+    "description": "황금빛 초원. R+G 혼합 지역.",
+    "characteristics": "복합 던전. 두 채널의 균형이 중요하다.",
+    "dominantChannel": "R+G",
+    "saturationRange": "50~70%"
+  },
+  {
+    "id": "shiji",
+    "name": "시지",
+    "kanji": "紫域",
+    "group": "blend",
+    "color": "#9B5DE5",
+    "description": "부유 지형과 보라빛 안개. R+B 혼합 지역.",
+    "characteristics": "역장 던전. 두 채널의 균형이 중요하다.",
+    "dominantChannel": "R+B",
+    "saturationRange": "50~70%"
+  },
+  {
+    "id": "aochi",
+    "name": "아오치",
+    "kanji": "青域",
+    "group": "blend",
+    "color": "#00B4D8",
+    "description": "거대 호수와 발광 해안. G+B 혼합 지역.",
+    "characteristics": "수중 던전. 두 채널의 균형이 중요하다.",
+    "dominantChannel": "G+B",
+    "saturationRange": "50~70%"
+  },
+  {
+    "id": "border",
+    "name": "보더",
+    "kanji": "墨境",
+    "group": "border",
+    "color": "#6C757D",
+    "description": "RGB-CMYK 전이 지대. 위험 구역.",
+    "characteristics": "PvP 및 공성전 지역. RGB와 CMYK 에너지가 충돌하는 가장 위험한 형태의 스톰이 발생한다.",
+    "dominantChannel": "RGB/CMYK",
+    "saturationRange": "70~85%"
+  },
+  {
+    "id": "thedeep",
+    "name": "더 딥",
+    "kanji": "深墨",
+    "group": "deep",
+    "color": "#0B0B0B",
+    "description": "CMYK 지배 영역. RGB 디버프.",
+    "characteristics": "엔드게임 지역. 쿠로겐의 의식이 가장 강한 지점. CMYK 에너지 증폭 효과.",
+    "dominantChannel": "CMYK",
+    "saturationRange": "85~100%"
+  }
+]

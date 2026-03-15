@@ -1,0 +1,43 @@
+{
+  "currentMaxChapter": 10,
+  "terms": {
+    "kurogen": 16,
+    "prismafall": 16,
+    "sanpo": 80,
+    "banjeon": 30
+  },
+  "characters": {
+    "coda": 30,
+    "nix": 14,
+    "ray": 20
+  },
+  "sections": {
+    "creation": [],
+    "races": [
+      {
+        "contentId": "reversal-details",
+        "visibleAfter": 30,
+        "placeholder": "이 내용은 소설 30화 이후에 공개됩니다."
+      }
+    ],
+    "history": [
+      {
+        "contentId": "h795",
+        "visibleAfter": 80,
+        "placeholder": "이 사건은 소설에서 상세히 다루어집니다."
+      },
+      {
+        "contentId": "h810",
+        "visibleAfter": 80,
+        "placeholder": "이 사건은 소설에서 상세히 다루어집니다."
+      }
+    ],
+    "special-beings": [
+      {
+        "contentId": "boundary-detail",
+        "visibleAfter": 14,
+        "placeholder": "이 내용은 소설 14화 이후에 공개됩니다."
+      }
+    ]
+  }
+}

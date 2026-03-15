@@ -1,0 +1,18 @@
+{
+  "id": "prism",
+  "name": "프리즘",
+  "quote": "",
+  "race": "렌 (RGB)",
+  "chromaValues": { "r": 0, "g": 0, "b": 0, "total": 0 },
+  "dominantColor": "미공개",
+  "tier": "미공개",
+  "iromon": "미공개",
+  "role": "7인 엘리트 집단. 대막 6에서 등장.",
+  "personality": "미공개",
+  "partyRole": "미공개",
+  "nameOrigin": "백색광을 7색으로 분리하는 것. 빛을 갈라놓는 자들.",
+  "spoilerAfter": 80,
+  "arcSummary": {
+    "6": "7인 엘리트로 등장."
+  }
+}

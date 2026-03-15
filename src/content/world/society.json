@@ -1,0 +1,118 @@
+{
+  "title": "사회 계층",
+  "rgbTiers": [
+    {
+      "id": "kihaku",
+      "system": "rgb",
+      "name": "키하쿠",
+      "kanji": "輝白",
+      "totalRange": "700~765",
+      "socialPosition": "최상위 지배 계층",
+      "lifespan": "500년 이상",
+      "notes": "극소수. 프리즘 스킬 해금. 사실상 신적 존재"
+    },
+    {
+      "id": "meisai",
+      "system": "rgb",
+      "name": "메이사이",
+      "kanji": "明彩",
+      "totalRange": "550~699",
+      "socialPosition": "귀족, 고위 관료",
+      "lifespan": "약 250년",
+      "notes": "강력한 복합 능력. 핵심 권력층"
+    },
+    {
+      "id": "chusai",
+      "system": "rgb",
+      "name": "츄사이",
+      "kanji": "中彩",
+      "totalRange": "300~549",
+      "socialPosition": "일반 시민, 중산층",
+      "lifespan": "약 120년",
+      "notes": "인구 대다수. 1채널 특화 또는 균등"
+    },
+    {
+      "id": "tansai",
+      "system": "rgb",
+      "name": "탄사이",
+      "kanji": "淡彩",
+      "totalRange": "100~299",
+      "socialPosition": "하층민, 노동자",
+      "lifespan": "약 80~110년",
+      "notes": "능력 미약. 사회적 차별 대상"
+    },
+    {
+      "id": "bokuei",
+      "system": "rgb",
+      "name": "보쿠에이",
+      "kanji": "墨影",
+      "totalRange": "0~99",
+      "socialPosition": "최하층 또는 두려움의 대상",
+      "lifespan": "60~80년",
+      "notes": "극히 드묾. 반전 가능성으로 감시 대상"
+    }
+  ],
+  "cmykTiers": [
+    {
+      "id": "shinboku",
+      "system": "cmyk",
+      "name": "심묵",
+      "kanji": "深墨",
+      "totalRange": "800+",
+      "socialPosition": "잔향의 핵심. 의식이 가장 깊은 자",
+      "lifespan": "500년 이상 (K 230+이면 수명 불명)",
+      "notes": "K값 200 이상. 쿠로겐의 목소리를 들을 가능성"
+    },
+    {
+      "id": "nouboku",
+      "system": "cmyk",
+      "name": "농묵",
+      "kanji": "濃墨",
+      "totalRange": "550~799",
+      "socialPosition": "잔향 지도자급",
+      "lifespan": "약 250년 (K 200+이면 +50~100년)",
+      "notes": "강력한 CMYK 복합 능력"
+    },
+    {
+      "id": "chuboku",
+      "system": "cmyk",
+      "name": "중묵",
+      "kanji": "中墨",
+      "totalRange": "300~549",
+      "socialPosition": "일반 묵렌",
+      "lifespan": "약 120년 (K 150+이면 +20~30년)",
+      "notes": "인구 대다수"
+    },
+    {
+      "id": "tanboku",
+      "system": "cmyk",
+      "name": "담묵",
+      "kanji": "淡墨",
+      "totalRange": "100~299",
+      "socialPosition": "약한 묵렌",
+      "lifespan": "80~110년",
+      "notes": "RGB 세계에 가까운 존재. 보더에서 자주 목격"
+    },
+    {
+      "id": "haiiro",
+      "system": "cmyk",
+      "name": "회색",
+      "kanji": "灰色",
+      "totalRange": "0~99",
+      "socialPosition": "경계의 존재",
+      "lifespan": "60~80년",
+      "notes": "RGB도 CMYK도 아닌 존재로 취급. 양쪽에서 배제"
+    }
+  ],
+  "coreConflict": "'태어날 때 결정된 빛의 양'으로 인생이 갈리는 사회. 이를 뒤집으려는 움직임 vs 수호하려는 세력이 서사의 핵심 축이다.",
+  "code": {
+    "title": "코드 — 색채 공명 사회 단위",
+    "description": "이 세계에는 '국가' 개념이 없다. 대신 코드라는 색채 공명 기반의 사회 단위가 존재한다.",
+    "elements": [
+      { "name": "코드", "kanji": "和音", "desc": "유사하거나 상보적인 색채의 렌이 모이면 에너지가 공명하여 개인 능력이 증폭된다. 이것은 자연 현상이다." },
+      { "name": "컨덕터", "kanji": "調律師", "desc": "코드의 지도자. 가장 강한 자가 아니라 공명을 극대화하는 자가 맡는다." },
+      { "name": "그랜드 코드", "kanji": "大和音", "desc": "여러 코드의 상위 연합. 도시나 연합에 해당한다." },
+      { "name": "디소넌스", "kanji": "不協和音", "desc": "코드 간 색채 충돌. 이 세계의 전쟁에 해당한다." }
+    ]
+  }
+}

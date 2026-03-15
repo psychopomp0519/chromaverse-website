@@ -1,0 +1,18 @@
+{
+  "id": "flint",
+  "name": "플린트",
+  "quote": "",
+  "race": "렌 (RGB)",
+  "chromaValues": { "r": 0, "g": 0, "b": 0, "total": 0 },
+  "dominantColor": "미공개",
+  "tier": "미공개",
+  "iromon": "미공개",
+  "role": "엔지에서 등장. 카이 파티의 동맹.",
+  "personality": "미공개",
+  "partyRole": "동맹.",
+  "nameOrigin": "부싯돌. 불 자체가 아니라 불을 일으키는 자.",
+  "arcSummary": {
+    "1": "엔지에서 등장. 파티 결성에 관여.",
+    "6": "플린트 재등장."
+  }
+}

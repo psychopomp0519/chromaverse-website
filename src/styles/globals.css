@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  /* ========== 크로마주 색채 토큰 ========== */
+
+  /* RGB 체계 (빛) */
+  --color-ador: #E63946;
+  --color-ador-light: #FF6B6B;
+  --color-ador-dark: #A62D37;
+  --color-vitalis: #2D6A4F;
+  --color-vitalis-light: #52B788;
+  --color-vitalis-dark: #1B4332;
+  --color-cognis: #457B9D;
+  --color-cognis-light: #6BAED6;
+  --color-cognis-dark: #2C5F7C;
+
+  /* CMYK 체계 (어둠) */
+  --color-suppress: #1D3557;
+  --color-erode: #6B2737;
+  --color-distort: #B5838D;
+  --color-void: #0B0B0B;
+
+  /* 지역 */
+  --color-enji: #FF6B35;
+  --color-seiji: #43AA8B;
+  --color-meichi: #577590;
+  --color-koji: #F4A261;
+  --color-shiji: #9B5DE5;
+  --color-aochi: #00B4D8;
+  --color-border: #6C757D;
+
+  /* Neutral */
+  --color-hakuten: #F1FAEE;
+  --color-deep: #0D1117;
+  --color-deep-lighter: #161B22;
+  --color-deep-card: #1C2333;
+
+  /* Text */
+  --color-text-primary: #E6EDF3;
+  --color-text-secondary: #8B949E;
+  --color-text-muted: #484F58;
+
+  /* Font */
+  --font-heading: "Pretendard", system-ui, sans-serif;
+  --font-body: "Pretendard", system-ui, sans-serif;
+  --font-novel: "Noto Serif KR", serif;
+}
+
+/* ========== 라이트 모드 ========== */
+[data-theme="light"] {
+  --color-text-primary: #1A1A2E;
+  --color-text-secondary: #4A4A6A;
+  --color-text-muted: #8A8AA0;
+
+  /* 배경 — 어두운 카드/서피스를 밝은 색으로 */
+  --color-deep: #F8FAFC;
+  --color-deep-lighter: #F1F5F9;
+  --color-deep-card: #E2E8F0;
+  --color-border: #94A3B8;
+}
+
+/* 라이트 모드: white-opacity 보더/배경 → dark-opacity 전환 */
+[data-theme="light"] :is(
+  .border-white\/5,
+  .border-white\/\[0\.03\]
+) {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+[data-theme="light"] .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+[data-theme="light"] :is(
+  .bg-white\/5,
+  .bg-white\/\[0\.03\]
+) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .active\:bg-white\/10:active {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .hover\:border-white\/10:hover {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+[data-theme="light"] .hover\:border-white\/20:hover {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+/* 라이트 모드: hakuten 텍스트 (매우 밝은 색 → 보이지 않음) 보정 */
+[data-theme="light"] .text-hakuten {
+  color: var(--color-ador-dark);
+}
+
+/* ========== 기본 스타일 ========== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-deep);
+  color: var(--color-text-primary);
+}
+
+[data-theme="light"] body {
+  background-color: var(--color-hakuten);
+}
+
+/* ========== 유틸리티 ========== */
+.text-gradient-rgb {
+  background: linear-gradient(135deg, var(--color-ador), var(--color-vitalis), var(--color-cognis));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-rgb {
+  box-shadow:
+    0 0 20px rgba(230, 57, 70, 0.15),
+    0 0 40px rgba(45, 106, 79, 0.10),
+    0 0 60px rgba(69, 123, 157, 0.10);
+}
+
+.bg-glass {
+  background: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(230, 237, 243, 0.08);
+}
+
+[data-theme="light"] .bg-glass {
+  background: rgba(241, 250, 238, 0.85);
+  border: 1px solid rgba(26, 26, 46, 0.1);
+}
+
+/* 라이트 모드: 소설 리더 컨트롤/네비게이션 보정 */
+[data-theme="light"] .border-cognis\/30 {
+  border-color: rgba(69, 123, 157, 0.3);
+}
+[data-theme="light"] .border-cognis\/40 {
+  border-color: rgba(69, 123, 157, 0.4);
+}

@@ -1,0 +1,19 @@
+{
+  "id": "blanc",
+  "name": "블랑",
+  "quote": "",
+  "race": "렌 (RGB)",
+  "chromaValues": { "r": 0, "g": 0, "b": 0, "total": 0 },
+  "dominantColor": "미공개",
+  "tier": "미공개",
+  "iromon": "미공개",
+  "role": "대막 1에서 이름 첫 언급. 적대자.",
+  "personality": "미공개",
+  "partyRole": "적대자.",
+  "nameOrigin": "프랑스어 '백'. blank(공백) = 다양성이 지워진 공백.",
+  "spoilerAfter": 40,
+  "arcSummary": {
+    "1": "이름 첫 언급.",
+    "6": "본격 등장. 최종 대면."
+  }
+}

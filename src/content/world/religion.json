@@ -1,0 +1,32 @@
+[
+  {
+    "id": "gwangmyeong",
+    "name": "광명회",
+    "kanji": "光明会",
+    "doctrine": "빛을 키워 루미나스 복원",
+    "luminousStance": "숭배",
+    "kurogenStance": "적대 (태초의 어둠)",
+    "base": "하쿠텐, 프라이머리",
+    "color": "#F1FAEE"
+  },
+  {
+    "id": "shimboku",
+    "name": "심묵교",
+    "kanji": "深墨教",
+    "doctrine": "어둠으로의 회귀가 진정한 평화",
+    "luminousStance": "부정 (침략자)",
+    "kurogenStance": "숭배",
+    "base": "더 딥, 보더",
+    "color": "#0B0B0B"
+  },
+  {
+    "id": "gyunhyeong",
+    "name": "균형파",
+    "kanji": "均衡派",
+    "doctrine": "빛과 어둠 모두 자연. 균형만이 답",
+    "luminousStance": "존중하나 숭배 않음",
+    "kurogenStance": "적대 않음. 공존",
+    "base": "블렌드, 보더 중립지대",
+    "color": "#577590"
+  }
+]

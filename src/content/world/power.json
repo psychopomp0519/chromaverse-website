@@ -1,0 +1,117 @@
+{
+  "title": "힘의 체계",
+  "subtitle": "RGB 및 CMYK",
+  "rgb": {
+    "title": "RGB — 빛의 체계",
+    "channels": [
+      {
+        "id": "r",
+        "system": "rgb",
+        "name": "아도르",
+        "kanji": "熱",
+        "domain": "물리 강화, 열 조작, 물질 간섭, 운동 에너지",
+        "physicalBasis": "가시광선 최장 파장이므로 물리적·물질적 친화",
+        "counterpart": "c",
+        "color": "#E63946",
+        "ranges": [
+          { "min": 0, "max": 50, "description": "물리 허약, 열 감지만" },
+          { "min": 51, "max": 120, "description": "일반인 물리, 미약한 열 조작" },
+          { "min": 121, "max": 200, "description": "강화 신체, 열 방출 및 흡수" },
+          { "min": 201, "max": 240, "description": "초인적 물리, 물질 상태 변환" },
+          { "min": 241, "max": 255, "description": "분자 단위 조작, 플라즈마" }
+        ]
+      },
+      {
+        "id": "g",
+        "system": "rgb",
+        "name": "비탈리스",
+        "kanji": "生",
+        "domain": "생체 조율, 유기체 공명, 감각 증폭, 생체 변형",
+        "physicalBasis": "눈이 가장 민감한 파장이므로 생명·감각 연결",
+        "counterpart": "m",
+        "color": "#2D6A4F",
+        "ranges": [
+          { "min": 0, "max": 50, "description": "허약한 체질, 질병 취약" },
+          { "min": 51, "max": 120, "description": "보통 건강, 가벼운 자가치유" },
+          { "min": 121, "max": 200, "description": "타인 치유, 동식물 교감" },
+          { "min": 201, "max": 240, "description": "중상 치유, 독 정화, 부분 변형" },
+          { "min": 241, "max": 255, "description": "사지 재생, 생명체 창조급" }
+        ]
+      },
+      {
+        "id": "b",
+        "system": "rgb",
+        "name": "코그니스",
+        "kanji": "識",
+        "domain": "인지 확장, 파동 조작, 공간 인지, 정신 간섭",
+        "physicalBasis": "최단 파장·최고 진동이므로 정신·파동 친화",
+        "counterpart": "y",
+        "color": "#457B9D",
+        "ranges": [
+          { "min": 0, "max": 50, "description": "인지 저하, 감응 불가" },
+          { "min": 51, "max": 120, "description": "보통 지능, 직감적 위험감지" },
+          { "min": 121, "max": 200, "description": "강화 분석력, 파동 조작" },
+          { "min": 201, "max": 240, "description": "초고속 사고, 정신 간섭" },
+          { "min": 241, "max": 255, "description": "공간 왜곡급 파동, 완전 정신간섭" }
+        ]
+      }
+    ]
+  },
+  "cmyk": {
+    "title": "CMYK — 어둠의 체계",
+    "channels": [
+      {
+        "id": "c",
+        "system": "cmyk",
+        "name": "서프레스",
+        "kanji": "沈",
+        "domain": "물리 억제, 열 흡수, 극저온, 정체의 장",
+        "physicalBasis": "적색광의 부재",
+        "counterpart": "r",
+        "color": "#1D3557"
+      },
+      {
+        "id": "m",
+        "system": "cmyk",
+        "name": "이로드",
+        "kanji": "蝕",
+        "domain": "생명력 침식, 부패 촉진, 생체 교란, 노화 가속",
+        "physicalBasis": "녹색광의 부재",
+        "counterpart": "g",
+        "color": "#6B2737"
+      },
+      {
+        "id": "y",
+        "system": "cmyk",
+        "name": "디스토트",
+        "kanji": "混",
+        "domain": "인지 교란, 환각, 파동 왜곡, 정체성 침식",
+        "physicalBasis": "청색광의 부재",
+        "counterpart": "b",
+        "color": "#B5838D"
+      },
+      {
+        "id": "k",
+        "system": "cmyk",
+        "name": "보이드",
+        "kanji": "虚",
+        "domain": "허공 생성, 존재 희석, CMY 증폭, 차원 간섭",
+        "physicalBasis": "쿠로겐 자체의 순수한 의지",
+        "color": "#0B0B0B",
+        "note": "RGB에 대응물이 없다. 빛의 부재로부터 파생된 것이 아니라, 빛 이전부터 존재하던 근원의 어둠 그 자체."
+      }
+    ],
+    "hierarchy": "보이드는 쿠로겐의 본의지다. 서프레스·이로드·디스토트는 프리즈마폴 이후 빛의 부재라는 조건에서 파생된 하위 의식으로, 각자의 영역 안에서 독자적 판단과 성격을 가지되 보이드의 방향성에 귀속된다."
+  },
+  "mixedAbilities": [
+    { "combo": "R+G", "name": "옐로 퓨전", "effect": "에너지 변환. HP와 물리력 전환" },
+    { "combo": "R+B", "name": "마젠타 퓨전", "effect": "역장 투사. 보이지 않는 힘으로 물체 조작" },
+    { "combo": "G+B", "name": "시안 퓨전", "effect": "생체공명. 원거리 치유, 감정 공유, 집단 의식" },
+    { "combo": "R+G+B", "name": "화이트 컨버전스", "effect": "프리즘. 총합 765 근접 시 현실 법칙급 간섭. K에 +25% 보너스" }
+  ],
+  "counterRelations": [
+    { "rgb": "R", "cmyk": "C", "bonus": "+30%", "desc": "물리력 vs 물리억제" },
+    { "rgb": "G", "cmyk": "M", "bonus": "+30%", "desc": "생명력 vs 생명침식" },
+    { "rgb": "B", "cmyk": "Y", "bonus": "+30%", "desc": "인지력 vs 인지왜곡" }
+  ]
+}

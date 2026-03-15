@@ -1,0 +1,17 @@
+{
+  "id": "gilt",
+  "name": "길트",
+  "quote": "",
+  "race": "렌 (RGB)",
+  "chromaValues": { "r": 0, "g": 0, "b": 0, "total": 0 },
+  "dominantColor": "미공개",
+  "tier": "미공개",
+  "iromon": "미공개",
+  "role": "코지에서 등장.",
+  "personality": "미공개",
+  "partyRole": "미공개",
+  "nameOrigin": "gilt(금도금) = 진짜가 아닌 표면의 금. guilt(죄책감)와 동음.",
+  "arcSummary": {
+    "3": "코지에서 등장."
+  }
+}
