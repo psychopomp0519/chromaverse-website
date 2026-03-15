@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
-import { signOut } from "@/app/auth/actions";
 
 export function AuthButton() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const supabase = createClient();
@@ -31,14 +32,16 @@ export function AuthButton() {
 
   if (user) {
     return (
-      <form action={signOut}>
-        <button
-          type="submit"
-          className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-white/20 hover:text-(--color-text-primary)"
-        >
-          로그아웃
-        </button>
-      </form>
+      <button
+        onClick={async () => {
+          const supabase = createClient();
+          await supabase.auth.signOut();
+          router.refresh();
+        }}
+        className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-white/20 hover:text-(--color-text-primary)"
+      >
+        로그아웃
+      </button>
     );
   }
 

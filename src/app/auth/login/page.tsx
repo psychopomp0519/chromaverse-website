@@ -2,27 +2,42 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { signIn } from "../actions";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setLoading(true);
     setError(null);
-    const result = await signIn(formData);
-    if (result?.error) {
-      setError(result.error);
+
+    const formData = new FormData(e.currentTarget);
+    const supabase = createClient();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    });
+
+    if (error) {
+      setError(error.message);
       setLoading(false);
+      return;
     }
+
+    router.push("/");
+    router.refresh();
   }
 
   return (
     <div className="mx-auto flex min-h-[80vh] max-w-sm flex-col items-center justify-center px-4">
       <h1 className="mb-8 text-2xl font-bold">로그인</h1>
 
-      <form action={handleSubmit} className="flex w-full flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
         <div>
           <label htmlFor="email" className="mb-1 block text-sm text-(--color-text-muted)">
             이메일
