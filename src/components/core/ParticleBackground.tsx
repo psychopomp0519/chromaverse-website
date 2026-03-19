@@ -24,6 +24,10 @@ interface Particle {
 const COLORS_DARK = ["#FF4D5E", "#34D399", "#60A5FA", "#F4A261", "#9B5DE5"];
 const COLORS_LIGHT = ["#1D3557", "#8B2252", "#B8860B", "#457B9D", "#2D6A4F"];
 
+function isMobile() {
+  return typeof window !== "undefined" && window.innerWidth < 768;
+}
+
 export function ParticleBackground({
   className,
   density = 50,
@@ -34,13 +38,16 @@ export function ParticleBackground({
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const frameRef = useRef(0);
+  const pausedRef = useRef(false);
 
   const initParticles = useCallback(
     (width: number, height: number) => {
       const isDark = document.documentElement.getAttribute("data-theme") !== "light";
       const colors = isDark ? COLORS_DARK : COLORS_LIGHT;
+      const mobile = isMobile();
+      const count = mobile ? Math.floor(density * 0.5) : density;
 
-      particlesRef.current = Array.from({ length: density }, () => ({
+      particlesRef.current = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * speed,
@@ -79,11 +86,17 @@ export function ParticleBackground({
 
     function animate() {
       if (!animating || !canvas || !ctx) return;
+      if (pausedRef.current) {
+        requestAnimationFrame(animate);
+        return;
+      }
 
       ctx.clearRect(0, 0, logicalW, logicalH);
 
       const time = frameRef.current * 0.01;
       frameRef.current++;
+      const mobile = isMobile();
+      const isInteractive = interactive && !mobile;
 
       for (const p of particlesRef.current) {
         p.x += p.vx;
@@ -96,7 +109,7 @@ export function ParticleBackground({
         if (p.x < -10) p.x = logicalW + 10;
         if (p.x > logicalW + 10) p.x = -10;
 
-        if (interactive) {
+        if (isInteractive) {
           const dx = p.x - mouseRef.current.x;
           const dy = p.y - mouseRef.current.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
@@ -121,10 +134,16 @@ export function ParticleBackground({
       requestAnimationFrame(animate);
     }
 
+    // Tab visibility pause
+    function handleVisibility() {
+      pausedRef.current = document.hidden;
+    }
+
     resize();
     animate();
 
     window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     const observer = new MutationObserver(() => {
       const rect = canvas.getBoundingClientRect();
@@ -138,24 +157,56 @@ export function ParticleBackground({
     return () => {
       animating = false;
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       observer.disconnect();
     };
   }, [initParticles, interactive]);
 
   const handleMouseMove = interactive
     ? (e: React.MouseEvent) => {
+        if (isMobile()) return;
         const rect = canvasRef.current?.getBoundingClientRect();
         if (!rect) return;
         mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
       }
     : undefined;
 
+  const handleClick = interactive
+    ? (e: React.MouseEvent) => {
+        if (isMobile()) return;
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        const cx = e.clientX - rect.left;
+        const cy = e.clientY - rect.top;
+        const isDark = document.documentElement.getAttribute("data-theme") !== "light";
+        const colors = isDark ? COLORS_DARK : COLORS_LIGHT;
+        // Spawn burst particles
+        const burst: Particle[] = Array.from({ length: 12 }, () => {
+          const angle = Math.random() * Math.PI * 2;
+          const v = Math.random() * 3 + 1;
+          return {
+            x: cx,
+            y: cy,
+            vx: Math.cos(angle) * v,
+            vy: Math.sin(angle) * v,
+            size: Math.random() * 3 + 2,
+            opacity: 0.6 + Math.random() * 0.3,
+            phase: Math.random() * Math.PI * 2,
+            color: colors[Math.floor(Math.random() * colors.length)],
+          };
+        });
+        particlesRef.current.push(...burst);
+      }
+    : undefined;
+
   return (
     <canvas
       ref={canvasRef}
-      className={cn("pointer-events-none absolute inset-0 h-full w-full", interactive && "pointer-events-auto", className)}
+      className={cn("pointer-events-none absolute inset-0 h-full w-full", interactive && !isMobile() && "pointer-events-auto", className)}
       onMouseMove={handleMouseMove}
+      onClick={handleClick}
       aria-hidden="true"
+      style={{ willChange: "transform" }}
     />
   );
 }

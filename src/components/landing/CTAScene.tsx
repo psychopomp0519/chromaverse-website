@@ -4,6 +4,8 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { AnimateIn } from "@/components/common/AnimateIn";
+import { getLastReadChapter } from "@/lib/reading";
+import { createClient } from "@/lib/supabase/client";
 
 const STATS = [
   { value: 700, label: "화의 대서사", suffix: "" },
@@ -46,12 +48,24 @@ export function CTAScene() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   const [teaserIndex, setTeaserIndex] = useState(0);
+  const [lastChapter, setLastChapter] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTeaserIndex((prev) => (prev + 1) % TEASERS.length);
     }, 4000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const last = await getLastReadChapter();
+      if (last) setLastChapter(last.chapter);
+    }
+    load();
   }, []);
 
   return (
@@ -75,12 +89,21 @@ export function CTAScene() {
         >
           세계관 탐험하기
         </Link>
-        <Link
-          href="/novel"
-          className="rounded-xl border border-(--color-border-hover) px-8 py-3 text-sm font-semibold text-(--color-text-secondary) transition-all hover:border-(--color-text-primary) hover:text-(--color-text-primary)"
-        >
-          소설 읽기
-        </Link>
+        {lastChapter ? (
+          <Link
+            href={`/novel/${lastChapter}`}
+            className="glow-rgb rounded-xl border border-(--color-ador)/30 bg-(--color-ador)/10 px-8 py-3 text-sm font-semibold text-(--color-text-primary) transition-all hover:bg-(--color-ador)/20"
+          >
+            {lastChapter}화 이어 읽기
+          </Link>
+        ) : (
+          <Link
+            href="/novel"
+            className="rounded-xl border border-(--color-border-hover) px-8 py-3 text-sm font-semibold text-(--color-text-secondary) transition-all hover:border-(--color-text-primary) hover:text-(--color-text-primary)"
+          >
+            소설 읽기
+          </Link>
+        )}
       </AnimateIn>
 
       <motion.div

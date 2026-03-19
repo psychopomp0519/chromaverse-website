@@ -1,11 +1,32 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ParticleBackground } from "@/components/core/ParticleBackground";
 
 const TITLE_CHARS = "CHROMAVERSE".split("");
+const SUBTITLE = "빛과 어둠이 만든 세계";
 
 export function HeroScene() {
+  const [typed, setTyped] = useState("");
+  const [startTyping, setStartTyping] = useState(false);
+
+  useEffect(() => {
+    const delay = setTimeout(() => setStartTyping(true), 1500);
+    return () => clearTimeout(delay);
+  }, []);
+
+  useEffect(() => {
+    if (!startTyping) return;
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setTyped(SUBTITLE.slice(0, i));
+      if (i >= SUBTITLE.length) clearInterval(interval);
+    }, 60);
+    return () => clearInterval(interval);
+  }, [startTyping]);
+
   return (
     <section className="snap-scene flex flex-col items-center justify-center px-4">
       <ParticleBackground density={60} speed={0.3} interactive />
@@ -28,14 +49,18 @@ export function HeroScene() {
             ))}
           </div>
 
-          <motion.p
-            className="text-lg tracking-[0.2em] text-(--color-text-secondary) sm:text-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
-          >
-            빛과 어둠이 만든 세계
-          </motion.p>
+          <p className="h-8 text-lg tracking-[0.2em] text-(--color-text-secondary) sm:text-xl">
+            {typed}
+            {typed.length < SUBTITLE.length && startTyping && (
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+                className="text-(--color-accent-primary)"
+              >
+                |
+              </motion.span>
+            )}
+          </p>
         </div>
 
         <motion.p

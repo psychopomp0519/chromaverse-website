@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { NODE_LABELS } from "@/lib/content-unlock";
@@ -11,6 +12,13 @@ interface UnlockNotificationProps {
 }
 
 export function UnlockNotification({ nodes, visible, onDismiss }: UnlockNotificationProps) {
+  // Auto-dismiss after 5 seconds
+  useEffect(() => {
+    if (!visible) return;
+    const timer = setTimeout(onDismiss, 5000);
+    return () => clearTimeout(timer);
+  }, [visible, onDismiss]);
+
   if (nodes.length === 0) return null;
 
   const labels = nodes.map((n) => NODE_LABELS[n] || n).join(", ");

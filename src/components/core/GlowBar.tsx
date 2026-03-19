@@ -13,7 +13,7 @@ export function GlowBar({ progress, className, height = 3 }: GlowBarProps) {
 
   return (
     <div
-      className={cn("fixed top-0 left-0 right-0 z-50", className)}
+      className={cn("group fixed top-0 left-0 right-0 z-50 transition-[height] duration-200 hover:!h-[5px]", className)}
       style={{ height }}
       role="progressbar"
       aria-valuenow={Math.round(clamped * 100)}
@@ -22,7 +22,7 @@ export function GlowBar({ progress, className, height = 3 }: GlowBarProps) {
       aria-label="읽기 진행률"
     >
       <div
-        className="h-full transition-[width] duration-300 ease-out"
+        className="h-full transition-[width] duration-300 ease-out animate-[glowPulse_2s_ease-in-out_infinite]"
         style={{
           width: `${clamped * 100}%`,
           background: `linear-gradient(90deg, var(--color-accent-cool), var(--color-accent-primary), var(--color-accent-warm))`,

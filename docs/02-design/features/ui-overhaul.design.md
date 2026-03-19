@@ -725,9 +725,9 @@ interface UnlockNotificationProps {
   --color-border-active: rgba(255, 255, 255, 0.25);
 
   /* 쿠로겐 accent (RGB glow) */
-  --color-accent-red: #FF4D5E;
-  --color-accent-green: #34D399;
-  --color-accent-blue: #60A5FA;
+  --color-accent-warm: #FF4D5E;
+  --color-accent-cool: #34D399;
+  --color-accent-primary: #60A5FA;
 }
 
 /* ========== 루미나스 모드 (Light) ========== */
@@ -746,9 +746,9 @@ interface UnlockNotificationProps {
   --color-border-active: rgba(0, 0, 0, 0.25);
 
   /* 루미나스 accent (CMYK ink) */
-  --color-accent-red: #8B2252;
-  --color-accent-green: #1D3557;
-  --color-accent-blue: #B8860B;
+  --color-accent-warm: #8B2252;
+  --color-accent-cool: #1D3557;
+  --color-accent-primary: #B8860B;
 }
 ```
 
@@ -766,8 +766,8 @@ interface UnlockNotificationProps {
 /* Glow 효과 */
 .glow-accent {
   box-shadow:
-    0 0 8px var(--color-accent-blue) / 0.3,
-    0 0 24px var(--color-accent-blue) / 0.1;
+    0 0 8px var(--color-accent-primary) / 0.3,
+    0 0 24px var(--color-accent-primary) / 0.1;
 }
 
 /* 스냅 스크롤 */

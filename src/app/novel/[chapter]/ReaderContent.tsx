@@ -4,9 +4,11 @@ import { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReaderStore } from "@/stores/reader";
+import { useUnlockStore } from "@/stores/unlock";
 import { buildGlossaryContext, highlightGlossaryTerms } from "@/components/novel/GlossaryPopup";
 import { Comments } from "@/components/novel/Comments";
-import { upsertReadingProgress } from "@/lib/reading";
+import { UnlockNotification } from "@/components/user/UnlockNotification";
+import { upsertReadingProgress, markChapterCompleted } from "@/lib/reading";
 import { GlowBar } from "@/components/core/GlowBar";
 import type { ChapterData } from "@/lib/content";
 
@@ -18,16 +20,45 @@ interface ReaderContentProps {
 }
 
 export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderContentProps) {
-  const { fontSize, increaseFontSize, decreaseFontSize, readerTheme, setReaderTheme } = useReaderStore();
+  const { fontSize, lineHeight, increaseFontSize, decreaseFontSize, cycleLineHeight, readerTheme, setReaderTheme } = useReaderStore();
+  const markComplete = useUnlockStore((s) => s.markChapterComplete);
   const [progress, setProgress] = useState(0);
   const [uiVisible, setUiVisible] = useState(true);
   const lastScrollY = useRef(0);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [controlsOpen, setControlsOpen] = useState(false);
+  const [newlyUnlocked, setNewlyUnlocked] = useState<string[]>([]);
+  const [showUnlock, setShowUnlock] = useState(false);
+  const completedRef = useRef(false);
 
   // 읽기 기록 저장
   useEffect(() => {
     upsertReadingProgress(chapterNum);
+    completedRef.current = false;
+
+    // Restore scroll position from localStorage
+    const saved = localStorage.getItem(`scroll-ch-${chapterNum}`);
+    if (saved) {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, Number(saved));
+      });
+    }
+  }, [chapterNum]);
+
+  // Save scroll position to localStorage (debounced)
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    function saveScroll() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        localStorage.setItem(`scroll-ch-${chapterNum}`, String(window.scrollY));
+      }, 300);
+    }
+    window.addEventListener("scroll", saveScroll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", saveScroll);
+    };
   }, [chapterNum]);
 
   // 스크롤 진행률 + UI 숨김
@@ -41,6 +72,18 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
         const h = document.documentElement.scrollHeight - window.innerHeight;
         const p = h > 0 ? y / h : 0;
         setProgress(p);
+
+        // 완독 감지 (95% 이상 스크롤 시)
+        if (p >= 0.95 && !completedRef.current) {
+          completedRef.current = true;
+          markChapterCompleted(chapterNum).then(() => {
+            const unlocked = markComplete(chapterNum);
+            if (unlocked.length > 0) {
+              setNewlyUnlocked(unlocked);
+              setShowUnlock(true);
+            }
+          });
+        }
 
         // UI visibility: show on scroll up or near top
         if (y < 100 || y < lastScrollY.current) {
@@ -111,6 +154,12 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
               >
                 가+
               </button>
+              <button
+                onClick={cycleLineHeight}
+                className="rounded-lg px-3 py-1.5 text-sm text-(--color-text-muted) hover:bg-(--color-bg-elevated) hover:text-(--color-text-primary)"
+              >
+                행간 {lineHeight}
+              </button>
               <hr className="border-(--color-border)" />
               <button
                 onClick={() => setReaderTheme(nextTheme[readerTheme])}
@@ -148,8 +197,8 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
 
       {/* Content */}
       <article
-        className={`mb-16 rounded-2xl p-6 sm:p-8 leading-loose font-(family-name:--font-novel) transition-colors ${themeStyles.bg} ${themeStyles.text}`}
-        style={{ fontSize: `${fontSize}px` }}
+        className={`mb-16 rounded-2xl p-6 sm:p-8 font-(family-name:--font-novel) transition-colors ${themeStyles.bg} ${themeStyles.text}`}
+        style={{ fontSize: `${fontSize}px`, lineHeight: lineHeight }}
       >
         {paragraphs.map((p, i) => (
           <p key={i} className="mb-6 text-justify indent-8">
@@ -194,6 +243,13 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
 
       {/* 댓글 */}
       <Comments chapter={chapterNum} />
+
+      {/* 해제 알림 */}
+      <UnlockNotification
+        nodes={newlyUnlocked}
+        visible={showUnlock}
+        onDismiss={() => setShowUnlock(false)}
+      />
     </>
   );
 }

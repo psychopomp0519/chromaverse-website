@@ -54,8 +54,9 @@ export default function ProfilePage() {
 
   const unlocked = getUnlockedNodes(completed);
   const next = getNextUnlock(completed);
-  const totalChapters = 11; // 현재 공개된 화수
-  const progressPercent = Math.round((completed.length / totalChapters) * 100);
+  const totalChapters = 1; // 현재 공개된 화수
+  const progressPercent = totalChapters > 0 ? Math.round((completed.length / totalChapters) * 100) : 0;
+  const estimatedReadingMinutes = completed.length * 15; // ~15분/화 추정
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
@@ -90,6 +91,22 @@ export default function ProfilePage() {
                 background: "linear-gradient(90deg, var(--color-accent-cool), var(--color-accent-primary), var(--color-accent-warm))",
               }}
             />
+          </div>
+        </div>
+
+        {/* 통계 */}
+        <div className="mb-3 flex gap-4">
+          <div className="rounded-lg bg-(--color-bg-elevated) px-3 py-2 text-center">
+            <p className="text-lg font-bold text-(--color-text-primary)">{estimatedReadingMinutes}</p>
+            <p className="text-[10px] text-(--color-text-muted)">추정 읽기 시간(분)</p>
+          </div>
+          <div className="rounded-lg bg-(--color-bg-elevated) px-3 py-2 text-center">
+            <p className="text-lg font-bold text-(--color-text-primary)">{completed.length}</p>
+            <p className="text-[10px] text-(--color-text-muted)">완독 화수</p>
+          </div>
+          <div className="rounded-lg bg-(--color-bg-elevated) px-3 py-2 text-center">
+            <p className="text-lg font-bold text-(--color-text-primary)">{unlocked.length}</p>
+            <p className="text-[10px] text-(--color-text-muted)">해제된 세계관</p>
           </div>
         </div>
 

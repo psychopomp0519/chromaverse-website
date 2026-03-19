@@ -29,6 +29,7 @@ const MENU_ITEMS = [
 ];
 
 const RADIUS = 90;
+const MOBILE_RADIUS = 80;
 
 export function RadialMenu({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
@@ -43,6 +44,20 @@ export function RadialMenu({ className }: { className?: string }) {
     if (!open) return;
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
+      // Focus trap: Tab cycles within menu
+      if (e.key === "Tab" && menuRef.current) {
+        const focusable = menuRef.current.querySelectorAll<HTMLElement>("a, button");
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -60,7 +75,7 @@ export function RadialMenu({ className }: { className?: string }) {
   return (
     <div
       ref={menuRef}
-      className={cn("fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8", className)}
+      className={cn("fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:translate-x-0 md:left-auto md:right-8 md:bottom-8", className)}
     >
       <AnimatePresence>
         {open && (

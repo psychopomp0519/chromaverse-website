@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { useUnlockStore } from "@/stores/unlock";
+import { getCompletedChapters } from "@/lib/reading";
+import { createClient } from "@/lib/supabase/client";
+import { UNLOCK_MAP } from "@/lib/content-unlock";
 
 interface ConstellationNode {
   id: string;
@@ -35,16 +38,70 @@ function getNode(id: string) {
   return NODES.find((n) => n.id === id);
 }
 
+/** 잠긴 노드에 필요한 챕터 수를 반환 */
+function getRequiredChapter(nodeId: string): number | null {
+  for (const [ch, nodes] of Object.entries(UNLOCK_MAP)) {
+    const mapped = nodeId === "special" ? "special-beings" : nodeId;
+    if (nodes.includes(mapped)) return Number(ch);
+  }
+  return null;
+}
+
 export function ConstellationMap() {
   const [hovered, setHovered] = useState<string | null>(null);
+  const [entered, setEntered] = useState(false);
+  const svgRef = useRef<HTMLDivElement>(null);
+  const { unlockedNodes, isLoggedIn, setCompletedChapters, setLoggedIn } = useUnlockStore();
+
+  // Entry animation trigger
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setEntered(true); },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      setLoggedIn(true);
+      const chapters = await getCompletedChapters();
+      setCompletedChapters(chapters);
+    }
+    load();
+  }, [setCompletedChapters, setLoggedIn]);
 
   const hoveredNode = hovered ? getNode(hovered) : null;
   const connectedIds = hoveredNode ? new Set(hoveredNode.connections) : new Set<string>();
 
+  function isUnlocked(nodeId: string): boolean {
+    if (!isLoggedIn) return true; // 비로그인 시 모두 표시
+    const mapped = nodeId === "special" ? "special-beings" : nodeId;
+    return unlockedNodes.includes(mapped);
+  }
+
+  const totalNodes = NODES.length;
+  const unlockedCount = isLoggedIn
+    ? NODES.filter((n) => isUnlocked(n.id)).length
+    : totalNodes;
+
   return (
     <>
+      {/* 진행률 표시 (로그인 시) */}
+      {isLoggedIn && (
+        <p className="mb-4 text-center text-xs text-(--color-text-muted)">
+          {unlockedCount}/{totalNodes} 해제
+        </p>
+      )}
+
       {/* Desktop: SVG Map */}
-      <div className="relative mx-auto hidden w-full max-w-5xl md:block" style={{ aspectRatio: "16/10" }}>
+      <div ref={svgRef} className="relative mx-auto hidden w-full max-w-5xl md:block" style={{ aspectRatio: "16/10" }}>
         <svg
           viewBox="0 0 100 100"
           className="h-full w-full"
@@ -56,62 +113,73 @@ export function ConstellationMap() {
               const target = getNode(targetId);
               if (!target || node.id > targetId) return null;
 
+              const bothUnlocked = isUnlocked(node.id) && isUnlocked(targetId);
               const isHighlighted =
-                hovered === node.id ||
-                hovered === targetId ||
-                (hovered && connectedIds.has(node.id) && connectedIds.has(targetId));
+                bothUnlocked &&
+                (hovered === node.id ||
+                 hovered === targetId ||
+                 (hovered && connectedIds.has(node.id) && connectedIds.has(targetId)));
 
               return (
                 <line
                   key={`${node.id}-${targetId}`}
                   x1={node.x}
                   y1={node.y}
-                  x2={target.x}
-                  y2={target.y}
+                  x2={entered ? target.x : node.x}
+                  y2={entered ? target.y : node.y}
                   stroke={isHighlighted ? node.color : "var(--color-border)"}
                   strokeWidth={isHighlighted ? 0.3 : 0.15}
-                  strokeOpacity={isHighlighted ? 0.8 : 0.3}
-                  style={{ transition: "all 0.3s ease" }}
+                  strokeOpacity={entered ? (bothUnlocked ? (isHighlighted ? 0.8 : 0.3) : 0.1) : 0}
+                  style={{ transition: "all 0.8s ease" }}
                 />
               );
             })
           )}
 
           {/* Nodes */}
-          {NODES.map((node, i) => {
+          {NODES.map((node, nodeIdx) => {
+            const unlocked = isUnlocked(node.id);
             const isHovered = hovered === node.id;
             const isConnected = connectedIds.has(node.id);
-            const dimmed = hovered && !isHovered && !isConnected;
+            const dimmed = (hovered && !isHovered && !isConnected) || !unlocked;
+            const requiredCh = getRequiredChapter(node.id);
 
-            return (
-              <g key={node.id}>
+            const nodeContent = (
+              <g key={node.id} style={{ opacity: entered ? 1 : 0, transition: `opacity 0.5s ease ${nodeIdx * 0.08}s` }}>
                 {/* Glow circle */}
-                {isHovered && (
-                  <circle
-                    cx={node.x}
-                    cy={node.y}
-                    r={4}
-                    fill={node.color}
-                    opacity={0.15}
-                  />
+                {isHovered && unlocked && (
+                  <circle cx={node.x} cy={node.y} r={4} fill={node.color} opacity={0.15} />
                 )}
                 {/* Main circle */}
-                <Link href={node.href}>
-                  <circle
-                    cx={node.x}
-                    cy={node.y}
-                    r={isHovered ? 2.2 : 1.8}
-                    fill={node.color}
-                    opacity={dimmed ? 0.3 : 1}
-                    onMouseEnter={() => setHovered(node.id)}
-                    onMouseLeave={() => setHovered(null)}
-                    style={{
-                      cursor: "pointer",
-                      transition: "all 0.3s ease",
-                      filter: isHovered ? `drop-shadow(0 0 3px ${node.color})` : "none",
-                    }}
-                  />
-                </Link>
+                <circle
+                  cx={node.x}
+                  cy={node.y}
+                  r={isHovered && unlocked ? 2.2 : 1.8}
+                  fill={unlocked ? node.color : "var(--color-bg-elevated)"}
+                  stroke={unlocked ? "none" : "var(--color-border-hover)"}
+                  strokeWidth={unlocked ? 0 : 0.2}
+                  opacity={dimmed ? 0.3 : 1}
+                  onMouseEnter={() => setHovered(node.id)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{
+                    cursor: unlocked ? "pointer" : "default",
+                    transition: "all 0.3s ease",
+                    filter: isHovered && unlocked ? `drop-shadow(0 0 3px ${node.color})` : "none",
+                  }}
+                />
+                {/* Lock icon for locked nodes */}
+                {!unlocked && (
+                  <text
+                    x={node.x}
+                    y={node.y + 0.7}
+                    textAnchor="middle"
+                    fontSize="2"
+                    fill="var(--color-text-muted)"
+                    style={{ pointerEvents: "none" }}
+                  >
+                    🔒
+                  </text>
+                )}
                 {/* Label */}
                 <text
                   x={node.x}
@@ -119,8 +187,8 @@ export function ConstellationMap() {
                   textAnchor="middle"
                   fontSize="2"
                   fontWeight="600"
-                  fill="var(--color-text-primary)"
-                  opacity={dimmed ? 0.3 : 1}
+                  fill={unlocked ? "var(--color-text-primary)" : "var(--color-text-muted)"}
+                  opacity={dimmed ? 0.3 : unlocked ? 1 : 0.5}
                   style={{ transition: "opacity 0.3s", pointerEvents: "none" }}
                 >
                   {node.label}
@@ -134,9 +202,15 @@ export function ConstellationMap() {
                   opacity={dimmed ? 0.2 : 0.6}
                   style={{ transition: "opacity 0.3s", pointerEvents: "none" }}
                 >
-                  {node.kanji}
+                  {unlocked ? node.kanji : `${requiredCh}화 후 해제`}
                 </text>
               </g>
+            );
+
+            return unlocked ? (
+              <Link key={node.id} href={node.href}>{nodeContent}</Link>
+            ) : (
+              <g key={node.id}>{nodeContent}</g>
             );
           })}
         </svg>
@@ -144,35 +218,49 @@ export function ConstellationMap() {
 
       {/* Mobile: Vertical list */}
       <div className="space-y-2 md:hidden">
-        {NODES.map((node, i) => (
-          <motion.div
-            key={node.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.05 }}
-          >
-            <Link
-              href={node.href}
-              className="flex items-center gap-3 rounded-xl border border-(--color-border) bg-(--color-bg-surface) p-4 transition-all hover:border-(--color-border-hover)"
+        {NODES.map((node, i) => {
+          const unlocked = isUnlocked(node.id);
+          const requiredCh = getRequiredChapter(node.id);
+
+          const content = (
+            <div
+              className={`flex items-center gap-3 rounded-xl border p-4 transition-all ${
+                unlocked
+                  ? "border-(--color-border) bg-(--color-bg-surface) hover:border-(--color-border-hover)"
+                  : "border-(--color-border) bg-(--color-bg-deep) opacity-50"
+              }`}
             >
               <span
                 className="h-3 w-3 shrink-0 rounded-full"
-                style={{ background: node.color }}
+                style={{ background: unlocked ? node.color : "var(--color-bg-elevated)" }}
               />
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-(--color-text-primary)">
                   {node.label}
                   <span className="ml-2 text-xs font-normal text-(--color-text-muted)">
-                    {node.kanji}
+                    {unlocked ? node.kanji : `🔒 ${requiredCh}화 후 해제`}
                   </span>
                 </p>
               </div>
-              <svg className="ml-auto h-4 w-4 shrink-0 text-(--color-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </Link>
-          </motion.div>
-        ))}
+              {unlocked && (
+                <svg className="ml-auto h-4 w-4 shrink-0 text-(--color-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              )}
+            </div>
+          );
+
+          return (
+            <motion.div
+              key={node.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.05 }}
+            >
+              {unlocked ? <Link href={node.href}>{content}</Link> : content}
+            </motion.div>
+          );
+        })}
       </div>
     </>
   );

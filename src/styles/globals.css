@@ -145,6 +145,12 @@ body {
     0 0 40px color-mix(in srgb, currentColor 20%, transparent);
 }
 
+/* GlowBar pulse */
+@keyframes glowPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 /* 스냅 스크롤 */
 .snap-container {
   scroll-snap-type: y mandatory;
