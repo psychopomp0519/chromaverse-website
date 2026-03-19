@@ -32,19 +32,19 @@
 
 ### 1.2 Background
 
-- 세계관설정집 v2.3.3: 11장 + 부록, 1,000줄 이상의 상세 설정
-- 소설설계서 v2.3: 700화/35권 체제, 7대막 구조
-- 소설 원고: 1~10화 집필 완료
+- 세계관설정집 v2.3.4: 11장 + 부록, 1,100줄 이상의 상세 설정
+- 마스터 문서(작문원칙통합): 집필 원칙 + 서사 설계 통합, 700화/35권/7대막
+- 소설 원고: 1~11화 집필 완료 (archive-v1)
 - 현재 이 콘텐츠를 통합 제공하는 플랫폼이 없음
 
 ### 1.3 Related Documents
 
-- `project-assets/01_크로마주_세계관설정집_v2_3_3.md`
-
-- `project-assets/03_크로마버스_소설설계서_v2_3.md`
-- `project-assets/크로마버스_대막1_화별플롯_1-80화.md`
-- `project-assets/크로마버스_1권_상세플롯_1-20화.md`
-- `project-assets/크로마버스_*화_*.docx` (소설 원고 1~10화)
+- `project-assets/settings/크로마버스_작문_원칙_통합.md` — 마스터 문서 (집필 원칙 + 서사 설계 통합)
+- `project-assets/settings/01_크로마주_세계관설정집_v2_3_4.md` — 세계관 정본
+- `project-assets/settings/02_크로마주_게임개발설계서_v2_2.md` — 게임 설계서
+- `project-assets/plots/크로마버스_대막1_화별플롯_1-80화.md`
+- `project-assets/plots/크로마버스_1권_상세플롯_1-20화.md`
+- `project-assets/novel/archive-v1/` (소설 원고 1~11화)
 
 ---
 
