@@ -48,6 +48,44 @@ export async function getMaxReadChapter(): Promise<number> {
   return data?.[0]?.chapter ?? 0;
 }
 
+export async function markChapterCompleted(chapter: number) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase
+    .from("reading_progress")
+    .upsert(
+      {
+        user_id: user.id,
+        chapter,
+        read_at: new Date().toISOString(),
+        completed: true,
+        completed_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,chapter" }
+    );
+}
+
+export async function getCompletedChapters(): Promise<number[]> {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("reading_progress")
+    .select("chapter")
+    .eq("user_id", user.id)
+    .eq("completed", true)
+    .order("chapter", { ascending: true });
+
+  return data?.map((r) => r.chapter) ?? [];
+}
+
 export async function getLastReadChapter(): Promise<{
   chapter: number;
   readAt: string;
