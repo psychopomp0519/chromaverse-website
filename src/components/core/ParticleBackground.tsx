@@ -1,0 +1,161 @@
+"use client";
+
+import { useRef, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
+
+interface ParticleBackgroundProps {
+  className?: string;
+  density?: number;
+  speed?: number;
+  interactive?: boolean;
+}
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  opacity: number;
+  phase: number;
+  color: string;
+}
+
+const COLORS_DARK = ["#FF4D5E", "#34D399", "#60A5FA", "#F4A261", "#9B5DE5"];
+const COLORS_LIGHT = ["#1D3557", "#8B2252", "#B8860B", "#457B9D", "#2D6A4F"];
+
+export function ParticleBackground({
+  className,
+  density = 50,
+  speed = 0.5,
+  interactive = false,
+}: ParticleBackgroundProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<Particle[]>([]);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const frameRef = useRef(0);
+
+  const initParticles = useCallback(
+    (width: number, height: number) => {
+      const isDark = document.documentElement.getAttribute("data-theme") !== "light";
+      const colors = isDark ? COLORS_DARK : COLORS_LIGHT;
+
+      particlesRef.current = Array.from({ length: density }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * speed,
+        vy: -Math.random() * speed * 0.5 - 0.1,
+        size: Math.random() * 4 + 2,
+        opacity: Math.random() * 0.4 + 0.1,
+        phase: Math.random() * Math.PI * 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      }));
+    },
+    [density, speed]
+  );
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animating = true;
+    let logicalW = 0;
+    let logicalH = 0;
+
+    function resize() {
+      if (!canvas) return;
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      const rect = canvas.getBoundingClientRect();
+      logicalW = rect.width;
+      logicalH = rect.height;
+      canvas.width = logicalW * dpr;
+      canvas.height = logicalH * dpr;
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+      initParticles(logicalW, logicalH);
+    }
+
+    function animate() {
+      if (!animating || !canvas || !ctx) return;
+
+      ctx.clearRect(0, 0, logicalW, logicalH);
+
+      const time = frameRef.current * 0.01;
+      frameRef.current++;
+
+      for (const p of particlesRef.current) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.y < -10) {
+          p.y = logicalH + 10;
+          p.x = Math.random() * logicalW;
+        }
+        if (p.x < -10) p.x = logicalW + 10;
+        if (p.x > logicalW + 10) p.x = -10;
+
+        if (interactive) {
+          const dx = p.x - mouseRef.current.x;
+          const dy = p.y - mouseRef.current.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            const force = (100 - dist) / 100;
+            p.x += (dx / dist) * force * 2;
+            p.y += (dy / dist) * force * 2;
+          }
+        }
+
+        const flicker = Math.sin(time + p.phase) * 0.15 + 0.85;
+        const alpha = p.opacity * flicker;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    resize();
+    animate();
+
+    window.addEventListener("resize", resize);
+
+    const observer = new MutationObserver(() => {
+      const rect = canvas.getBoundingClientRect();
+      initParticles(rect.width, rect.height);
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => {
+      animating = false;
+      window.removeEventListener("resize", resize);
+      observer.disconnect();
+    };
+  }, [initParticles, interactive]);
+
+  const handleMouseMove = interactive
+    ? (e: React.MouseEvent) => {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      }
+    : undefined;
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn("pointer-events-none absolute inset-0 h-full w-full", interactive && "pointer-events-auto", className)}
+      onMouseMove={handleMouseMove}
+      aria-hidden="true"
+    />
+  );
+}

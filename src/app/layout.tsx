@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Serif_KR } from "next/font/google";
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
-import { Header } from "@/components/layout/Header";
+import { CinemaHeader } from "@/components/layout/CinemaHeader";
+import { RadialMenu } from "@/components/core/RadialMenu";
 import { Footer } from "@/components/layout/Footer";
 import "@/styles/globals.css";
 
@@ -41,9 +42,10 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem={false}
         >
-          <Header />
+          <CinemaHeader />
           <main className="overflow-x-hidden pt-16">{children}</main>
           <Footer />
+          <RadialMenu />
         </ThemeProvider>
       </body>
     </html>
