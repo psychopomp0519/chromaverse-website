@@ -8,7 +8,7 @@ import { useUnlockStore } from "@/stores/unlock";
 import { buildGlossaryContext, highlightGlossaryTerms } from "@/components/novel/GlossaryPopup";
 import { Comments } from "@/components/novel/Comments";
 import { UnlockNotification } from "@/components/user/UnlockNotification";
-import { upsertReadingProgress, markChapterCompleted } from "@/lib/reading";
+import { upsertReadingProgress, markChapterCompleted, saveScrollPosition, getScrollPosition } from "@/lib/reading";
 import { GlowBar } from "@/components/core/GlowBar";
 import type { ChapterData } from "@/lib/content";
 
@@ -36,27 +36,35 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
     upsertReadingProgress(chapterNum);
     completedRef.current = false;
 
-    // Restore scroll position from localStorage
-    const saved = localStorage.getItem(`scroll-ch-${chapterNum}`);
-    if (saved) {
-      requestAnimationFrame(() => {
-        window.scrollTo(0, Number(saved));
-      });
-    }
+    // Restore scroll position: Supabase first, localStorage fallback
+    getScrollPosition(chapterNum).then((pos) => {
+      const localSaved = localStorage.getItem(`scroll-ch-${chapterNum}`);
+      const scrollTo = pos > 0 ? pos : localSaved ? Number(localSaved) : 0;
+      if (scrollTo > 0) {
+        requestAnimationFrame(() => window.scrollTo(0, scrollTo));
+      }
+    });
   }, [chapterNum]);
 
-  // Save scroll position to localStorage (debounced)
+  // Save scroll position to localStorage + Supabase (debounced)
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
+    let dbTimer: ReturnType<typeof setTimeout>;
     function saveScroll() {
       clearTimeout(timer);
+      clearTimeout(dbTimer);
       timer = setTimeout(() => {
         localStorage.setItem(`scroll-ch-${chapterNum}`, String(window.scrollY));
       }, 300);
+      // Supabase save less frequently (5s debounce)
+      dbTimer = setTimeout(() => {
+        saveScrollPosition(chapterNum, window.scrollY);
+      }, 5000);
     }
     window.addEventListener("scroll", saveScroll, { passive: true });
     return () => {
       clearTimeout(timer);
+      clearTimeout(dbTimer);
       window.removeEventListener("scroll", saveScroll);
     };
   }, [chapterNum]);
@@ -111,6 +119,13 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
     light: { bg: "bg-white", text: "text-gray-800" },
     sepia: { bg: "bg-amber-50", text: "text-amber-950" },
   }[readerTheme];
+
+  // 장면 전환 배경색 — progress에 따라 미묘한 색온도 변화 (3s transition)
+  const sceneHue = readerTheme === "dark"
+    ? `hsl(230, 15%, ${4 + progress * 3}%)`    // 어둠: 약간 밝아짐
+    : readerTheme === "sepia"
+    ? `hsl(${35 + progress * 10}, 40%, ${97 - progress * 3}%)` // 세피아: 따뜻해짐
+    : undefined; // 라이트는 그대로
 
   const nextTheme = { dark: "light", light: "sepia", sepia: "dark" } as const;
   const themeLabels = { dark: "다크", light: "라이트", sepia: "세피아" } as const;
@@ -197,8 +212,13 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
 
       {/* Content */}
       <article
-        className={`mb-16 rounded-2xl p-6 sm:p-8 font-(family-name:--font-novel) transition-colors ${themeStyles.bg} ${themeStyles.text}`}
-        style={{ fontSize: `${fontSize}px`, lineHeight: lineHeight }}
+        className={`mb-16 rounded-2xl p-6 sm:p-8 font-(family-name:--font-novel) ${themeStyles.bg} ${themeStyles.text}`}
+        style={{
+          fontSize: `${fontSize}px`,
+          lineHeight: lineHeight,
+          backgroundColor: sceneHue,
+          transition: "background-color 3s ease, color 0.3s ease",
+        }}
       >
         {paragraphs.map((p, i) => (
           <p key={i} className="mb-6 text-justify indent-8">

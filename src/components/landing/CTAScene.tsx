@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { AnimateIn } from "@/components/common/AnimateIn";
@@ -70,6 +71,13 @@ export function CTAScene() {
 
   return (
     <section ref={ref} className="snap-scene flex flex-col items-center justify-center gap-10 px-4">
+      <Image
+        src="/images/landing/cta-prismafall.webp"
+        alt=""
+        fill
+        className="object-cover opacity-15"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+      />
       <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
         {STATS.map((stat) => (
           <div key={stat.label} className="text-center">

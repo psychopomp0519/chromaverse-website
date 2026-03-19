@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -41,6 +42,13 @@ export function NovelScene() {
 
   return (
     <section ref={ref} className="snap-scene flex flex-col items-center justify-center gap-8 px-4">
+      <Image
+        src="/images/landing/novel-silhouettes.webp"
+        alt=""
+        fill
+        className="object-cover opacity-20"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+      />
       <div className="relative z-10 mx-auto max-w-2xl text-center">
         <motion.p
           className="text-xs font-medium tracking-[0.3em] uppercase text-(--color-text-muted)"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ParticleBackground } from "@/components/core/ParticleBackground";
 
@@ -29,6 +30,15 @@ export function HeroScene() {
 
   return (
     <section className="snap-scene flex flex-col items-center justify-center px-4">
+      {/* Background image (graceful fallback to particles only) */}
+      <Image
+        src="/images/landing/hero.webp"
+        alt=""
+        fill
+        priority
+        className="object-cover opacity-30"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+      />
       <ParticleBackground density={60} speed={0.3} interactive />
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-(--color-bg-deep)" />

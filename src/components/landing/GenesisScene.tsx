@@ -1,12 +1,22 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { AnimateIn } from "@/components/common/AnimateIn";
 
 export function GenesisScene() {
   return (
     <section className="snap-scene flex items-center justify-center px-4">
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 md:gap-16">
+      {/* Background image */}
+      <Image
+        src="/images/landing/genesis.webp"
+        alt=""
+        fill
+        className="object-cover opacity-20"
+        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+      />
+
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-8 md:grid-cols-2 md:gap-16">
         <AnimateIn className="flex flex-col items-center gap-4 text-center md:items-end md:text-right">
           <motion.div
             className="h-32 w-32 rounded-full sm:h-40 sm:w-40"
@@ -46,7 +56,19 @@ export function GenesisScene() {
         </AnimateIn>
       </div>
 
-      <AnimateIn delay={0.4} className="absolute bottom-12 text-center">
+      {/* Center prismafall image */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <Image
+          src="/images/landing/prismafall.webp"
+          alt="프리즈마폴"
+          width={200}
+          height={200}
+          className="opacity-40 mix-blend-screen"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+        />
+      </div>
+
+      <AnimateIn delay={0.4} className="absolute bottom-12 z-10 text-center">
         <p className="text-xs tracking-widest text-(--color-text-muted)">
           그리고 빛과 어둠이 만나는 곳에서 — 프리즈마폴이 태어났다
         </p>
