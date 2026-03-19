@@ -34,8 +34,8 @@ export function Navigation({ className, vertical, onItemClick }: NavigationProps
             className={cn(
               "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
               isActive
-                ? "bg-(--color-deep-card) text-(--color-text-primary)"
-                : "text-(--color-text-secondary) hover:text-(--color-text-primary) hover:bg-(--color-deep-card)/50"
+                ? "bg-(--color-bg-elevated) text-(--color-text-primary)"
+                : "text-(--color-text-secondary) hover:text-(--color-text-primary) hover:bg-(--color-bg-elevated)/50"
             )}
           >
             {item.label}

@@ -19,7 +19,7 @@ export function ReligionCompare({ religions }: ReligionCompareProps) {
       {religions.map((rel) => (
         <div
           key={rel.id}
-          className="relative overflow-hidden rounded-2xl border border-white/5 bg-(--color-deep-card) p-6"
+          className="relative overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-6"
         >
           <div
             className="absolute inset-x-0 top-0 h-1"

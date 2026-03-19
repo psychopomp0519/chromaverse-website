@@ -46,7 +46,7 @@ export default function NovelPage() {
       <section>
         <Link
           href="/novel/characters"
-          className="group flex items-center gap-4 rounded-2xl border border-white/5 bg-(--color-deep-card) p-6 transition-all hover:border-white/10"
+          className="group flex items-center gap-4 rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-6 transition-all hover:border-(--color-border-hover)"
         >
           <div className="flex-1">
             <h2 className="text-xl font-bold">캐릭터 프로필</h2>

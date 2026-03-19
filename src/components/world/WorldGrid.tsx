@@ -21,7 +21,7 @@ export function WorldGrid({ sections }: { sections: WorldSection[] }) {
           <TiltCard className="h-full" tiltDeg={6} glareOpacity={0.08}>
             <Link
               href={section.href}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-(--color-deep-card) p-6 transition-all hover:border-white/10 hover:shadow-lg"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-6 transition-all hover:border-(--color-border-hover) hover:shadow-lg"
             >
               <div
                 className={`absolute inset-0 bg-gradient-to-br ${section.color} opacity-0 transition-opacity group-hover:opacity-100`}

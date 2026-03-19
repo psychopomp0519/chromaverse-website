@@ -38,7 +38,7 @@ export default function AboutPage() {
 
       {/* 프로젝트 소개 */}
       <section className="mb-16">
-        <div className="rounded-2xl border border-white/5 bg-(--color-deep-card) p-8">
+        <div className="rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-8">
           <h2 className="text-xl font-bold mb-4">크로마버스란?</h2>
           <div className="space-y-4 text-(--color-text-secondary) leading-relaxed">
             <p>
@@ -68,11 +68,11 @@ export default function AboutPage() {
               {group.items.map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-xl border border-white/5 bg-(--color-deep-card) p-5 transition-colors hover:border-white/10"
+                  className="rounded-xl border border-(--color-border) bg-(--color-bg-elevated) p-5 transition-colors hover:border-(--color-border-hover)"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <h4 className="font-semibold">{item.title}</h4>
-                    <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-(--color-text-muted)">
+                    <span className="rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-xs text-(--color-text-muted)">
                       {item.type}
                     </span>
                   </div>

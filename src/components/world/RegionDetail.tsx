@@ -9,7 +9,7 @@ interface RegionDetailProps {
 
 export function RegionDetail({ region, onClose }: RegionDetailProps) {
   return (
-    <div className="mt-8 rounded-2xl border border-white/10 bg-(--color-deep-card) p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <div className="mt-8 rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-4 duration-300">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
@@ -27,7 +27,7 @@ export function RegionDetail({ region, onClose }: RegionDetailProps) {
         </div>
         <button
           onClick={onClose}
-          className="shrink-0 rounded-lg p-2 text-(--color-text-muted) transition-colors hover:bg-white/5 hover:text-(--color-text-primary)"
+          className="shrink-0 rounded-lg p-2 text-(--color-text-muted) transition-colors hover:bg-(--color-bg-elevated) hover:text-(--color-text-primary)"
           aria-label="닫기"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
@@ -55,7 +55,7 @@ export function RegionDetail({ region, onClose }: RegionDetailProps) {
             </span>
           )}
           {region.saturationRange && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-(--color-text-muted) border border-white/10">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-(--color-bg-surface) px-3 py-1 text-xs font-medium text-(--color-text-muted) border border-(--color-border)">
               채도 {region.saturationRange}
             </span>
           )}

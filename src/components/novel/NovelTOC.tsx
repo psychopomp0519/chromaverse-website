@@ -75,8 +75,8 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                 isActive
                   ? colors.tab
                   : hasChapters
-                  ? "border-white/10 bg-white/5 text-(--color-text-secondary) hover:border-white/20"
-                  : "border-white/[0.03] bg-transparent text-(--color-text-muted)/40 cursor-default"
+                  ? "border-(--color-border) bg-(--color-bg-surface) text-(--color-text-secondary) hover:border-(--color-border-hover)"
+                  : "border-(--color-border) bg-transparent text-(--color-text-muted)/40 cursor-default"
               }`}
               disabled={!hasChapters && !isActive}
             >
@@ -101,7 +101,7 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
           {currentArc.keywords.split(", ").map((kw) => (
             <span
               key={kw}
-              className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-(--color-text-muted)"
+              className="rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-xs text-(--color-text-muted)"
             >
               {kw}
             </span>
@@ -129,7 +129,7 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                   {volume.title}
                 </span>
                 {!hasAny && (
-                  <span className="ml-auto rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-(--color-text-muted)">
+                  <span className="ml-auto rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-[10px] text-(--color-text-muted)">
                     미연재
                   </span>
                 )}
@@ -149,21 +149,21 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                         className={`group flex items-center gap-3 rounded-lg border px-4 py-3 transition-all ${
                           isRead
                             ? "border-[var(--color-vitalis)]/20 bg-[var(--color-vitalis)]/5 hover:border-[var(--color-vitalis)]/30"
-                            : "border-white/5 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
+                            : "border-(--color-border) bg-(--color-bg-surface) hover:border-(--color-border-hover) hover:bg-(--color-bg-elevated)"
                         }`}
                       >
                         {/* 읽음 표시 */}
                         <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] ${
                           isRead
                             ? "bg-[var(--color-vitalis)]/20 text-[var(--color-vitalis)]"
-                            : "bg-white/5 text-(--color-text-muted)"
+                            : "bg-(--color-bg-elevated) text-(--color-text-muted)"
                         }`}>
                           {isRead ? "✓" : ch}
                         </span>
 
                         {/* 화 번호 + 제목 */}
                         <div className="flex-1 min-w-0">
-                          <span className="text-sm font-medium text-(--color-text-primary) group-hover:text-white transition-colors">
+                          <span className="text-sm font-medium text-(--color-text-primary) group-hover:text-(--color-accent-primary) transition-colors">
                             {ch}화
                           </span>
                           <span className="mx-2 text-(--color-text-muted)">·</span>
@@ -186,7 +186,7 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                   })}
                 </div>
               ) : (
-                <div className="rounded-lg border border-dashed border-white/[0.06] px-4 py-6 text-center text-xs text-(--color-text-muted)/40">
+                <div className="rounded-lg border border-dashed border-(--color-border) px-4 py-6 text-center text-xs text-(--color-text-muted)/40">
                   연재 예정
                 </div>
               )}

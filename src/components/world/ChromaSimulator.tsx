@@ -87,13 +87,13 @@ export function ChromaSimulator() {
   }, [r, g, b]);
 
   return (
-    <div className="rounded-2xl border border-white/5 bg-(--color-deep-card) p-6">
+    <div className="rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-6">
       <h3 className="text-lg font-bold mb-6">크로마 시뮬레이터</h3>
 
       {/* Color Preview */}
       <div className="mb-6 flex items-center gap-4">
         <div
-          className="h-20 w-20 rounded-2xl border border-white/10 shadow-lg"
+          className="h-20 w-20 rounded-2xl border border-(--color-border-hover) shadow-lg"
           style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
         />
         <div>
@@ -138,7 +138,7 @@ export function ChromaSimulator() {
 
       {/* Mixed Abilities */}
       {mixedAbilities.length > 0 && (
-        <div className="border-t border-white/5 pt-4">
+        <div className="border-t border-(--color-border) pt-4">
           <p className="text-xs font-semibold text-(--color-text-muted) uppercase tracking-wider mb-2">
             혼합 능력 발현
           </p>
@@ -146,7 +146,7 @@ export function ChromaSimulator() {
             {mixedAbilities.map((mix) => (
               <span
                 key={mix.combo}
-                className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium"
+                className="rounded-full bg-(--color-bg-elevated) px-3 py-1 text-xs font-medium"
               >
                 {mix.combo} {mix.name}
               </span>

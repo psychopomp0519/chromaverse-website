@@ -97,7 +97,7 @@ export function Comments({ chapter }: CommentsProps) {
   }
 
   return (
-    <div className="mt-16 border-t border-white/10 pt-8">
+    <div className="mt-16 border-t border-(--color-border) pt-8">
       <h3 className="mb-6 text-lg font-bold">
         댓글 {comments.length > 0 && `(${comments.length})`}
       </h3>
@@ -111,7 +111,7 @@ export function Comments({ chapter }: CommentsProps) {
             placeholder="소설에 대한 감상을 남겨주세요..."
             maxLength={1000}
             rows={3}
-            className="w-full resize-none rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-(--color-text-primary) outline-none transition-colors placeholder:text-(--color-text-muted) focus:border-white/20"
+            className="w-full resize-none rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-3 text-sm text-(--color-text-primary) outline-none transition-colors placeholder:text-(--color-text-muted) focus:border-(--color-border-active)"
           />
           <div className="mt-2 flex items-center justify-between">
             <span className="text-xs text-(--color-text-muted)">
@@ -120,7 +120,7 @@ export function Comments({ chapter }: CommentsProps) {
             <button
               type="submit"
               disabled={submitting || !content.trim()}
-              className="rounded-lg bg-white/10 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-white/20 disabled:opacity-40"
+              className="rounded-lg bg-(--color-bg-elevated) px-4 py-1.5 text-sm font-medium transition-colors hover:bg-(--color-border-active) disabled:opacity-40"
             >
               {submitting ? "등록 중..." : "댓글 등록"}
             </button>
@@ -130,7 +130,7 @@ export function Comments({ chapter }: CommentsProps) {
           )}
         </form>
       ) : (
-        <div className="mb-8 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-center text-sm text-(--color-text-muted)">
+        <div className="mb-8 rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-3 text-center text-sm text-(--color-text-muted)">
           <a href="/auth/login" className="underline hover:text-(--color-text-primary)">
             로그인
           </a>
@@ -150,7 +150,7 @@ export function Comments({ chapter }: CommentsProps) {
           {comments.map((comment) => (
             <div
               key={comment.id}
-              className="rounded-lg border border-white/5 bg-white/[0.02] px-4 py-3"
+              className="rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-3"
             >
               <div className="mb-2 flex items-center justify-between text-xs text-(--color-text-muted)">
                 <span>{maskEmail(comment.email)}</span>
@@ -182,7 +182,7 @@ export function Comments({ chapter }: CommentsProps) {
                 setLoadingMore(false);
               }}
               disabled={loadingMore}
-              className="w-full rounded-lg border border-white/10 py-2 text-sm text-(--color-text-muted) transition-colors hover:border-white/20 hover:text-(--color-text-primary)"
+              className="w-full rounded-lg border border-(--color-border) py-2 text-sm text-(--color-text-muted) transition-colors hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
             >
               {loadingMore ? "불러오는 중..." : "댓글 더 보기"}
             </button>

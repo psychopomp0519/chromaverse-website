@@ -24,9 +24,9 @@ export function ChromaDisplay({ values }: ChromaDisplayProps) {
       {channels.map((ch) => (
         <div key={ch.key} className="flex items-center gap-2">
           <span className="w-4 text-xs font-bold text-(--color-text-muted)">{ch.label}</span>
-          <div className="relative h-3 flex-1 overflow-hidden rounded-full bg-white/5">
+          <div className="relative h-3 flex-1 overflow-hidden rounded-full bg-(--color-bg-elevated)">
             <div
-              className={`absolute inset-y-0 left-0 rounded-full ${CHROMA_COLORS[ch.key] || "bg-white/20"} opacity-70`}
+              className={`absolute inset-y-0 left-0 rounded-full ${CHROMA_COLORS[ch.key] || "bg-(--color-border-hover)"} opacity-70`}
               style={{ width: `${(ch.value / max) * 100}%` }}
             />
           </div>
@@ -35,7 +35,7 @@ export function ChromaDisplay({ values }: ChromaDisplayProps) {
           </span>
         </div>
       ))}
-      <div className="flex items-center gap-2 pt-1 border-t border-white/5">
+      <div className="flex items-center gap-2 pt-1 border-t border-(--color-border)">
         <span className="w-4 text-xs font-bold text-(--color-text-muted)">T</span>
         <span className="text-xs text-(--color-text-secondary)">총합 {values.total}</span>
       </div>

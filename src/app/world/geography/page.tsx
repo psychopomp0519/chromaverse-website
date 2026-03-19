@@ -44,7 +44,7 @@ export default function GeographyPage() {
               {groupRegions.map((region) => (
                 <div
                   key={region.id}
-                  className="group relative overflow-hidden rounded-2xl border border-white/5 bg-(--color-deep-card) p-6 transition-all hover:border-white/10"
+                  className="group relative overflow-hidden rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-6 transition-all hover:border-(--color-border-hover)"
                 >
                   {/* Color accent bar */}
                   <div
@@ -74,12 +74,12 @@ export default function GeographyPage() {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {region.dominantChannel && (
-                        <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-(--color-text-muted)">
+                        <span className="rounded-full bg-(--color-bg-surface) px-2.5 py-0.5 text-xs text-(--color-text-muted)">
                           {region.dominantChannel}
                         </span>
                       )}
                       {region.saturationRange && (
-                        <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-(--color-text-muted)">
+                        <span className="rounded-full bg-(--color-bg-surface) px-2.5 py-0.5 text-xs text-(--color-text-muted)">
                           채도 {region.saturationRange}
                         </span>
                       )}

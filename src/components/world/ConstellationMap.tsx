@@ -17,7 +17,7 @@ interface ConstellationNode {
 }
 
 const NODES: ConstellationNode[] = [
-  { id: "creation", label: "창세", kanji: "大散光", x: 50, y: 6, color: "#F1FAEE", href: "/world/creation", connections: ["races", "power"] },
+  { id: "creation", label: "창세", kanji: "大散光", x: 50, y: 6, color: "#D4A843", href: "/world/creation", connections: ["races", "power"] },
   { id: "races", label: "종족", kanji: "煉·墨煉", x: 25, y: 22, color: "#34D399", href: "/world/races", connections: ["creation", "society", "power"] },
   { id: "power", label: "힘의 체계", kanji: "RGB·CMYK", x: 75, y: 22, color: "#60A5FA", href: "/world/power", connections: ["creation", "races", "growth"] },
   { id: "society", label: "사회", kanji: "和音", x: 20, y: 40, color: "#F4A261", href: "/world/society", connections: ["races", "religion", "economy"] },

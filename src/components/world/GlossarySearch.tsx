@@ -47,7 +47,7 @@ export function GlossarySearch({ entries }: GlossarySearchProps) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="용어 검색..."
-          className="w-full rounded-xl border border-white/10 bg-(--color-deep-card) px-4 py-3 text-sm text-(--color-text-primary) placeholder:text-(--color-text-muted) focus:border-cognis/30 focus:outline-none"
+          className="w-full rounded-xl border border-(--color-border) bg-(--color-bg-elevated) px-4 py-3 text-sm text-(--color-text-primary) placeholder:text-(--color-text-muted) focus:border-cognis/30 focus:outline-none"
         />
       </div>
 
@@ -59,7 +59,7 @@ export function GlossarySearch({ entries }: GlossarySearchProps) {
             className={`rounded-full px-3.5 py-2 text-sm sm:px-3 sm:py-1.5 sm:text-xs font-medium transition-colors ${
               activeCategory === cat.key
                 ? "bg-cognis/20 text-cognis-light"
-                : "bg-white/5 text-(--color-text-muted) hover:text-(--color-text-secondary)"
+                : "bg-(--color-bg-surface) text-(--color-text-muted) hover:text-(--color-text-secondary)"
             }`}
           >
             {cat.label}

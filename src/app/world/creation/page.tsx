@@ -17,7 +17,7 @@ const SECTION_COLORS: Record<string, string> = {
 const SECTION_ACCENTS: Record<string, string> = {
   hakuten: "bg-hakuten/5",
   ador: "bg-ador/5",
-  void: "bg-white/[0.02]",
+  void: "bg-(--color-bg-surface)",
   cognis: "bg-cognis/5",
 };
 
@@ -42,7 +42,7 @@ export default function CreationPage() {
         {creationData.sections.map((section) => (
           <section
             key={section.id}
-            className={`rounded-2xl border ${SECTION_COLORS[section.color] || "border-white/5"} ${SECTION_ACCENTS[section.color] || ""} p-8 transition-colors`}
+            className={`rounded-2xl border ${SECTION_COLORS[section.color] || "border-(--color-border)"} ${SECTION_ACCENTS[section.color] || ""} p-8 transition-colors`}
           >
             <div className="mb-4">
               {section.kanji && (
@@ -60,7 +60,7 @@ export default function CreationPage() {
             )}
 
             {"note" in section && section.note && (
-              <p className="mt-4 rounded-lg bg-white/[0.03] p-4 text-sm italic text-(--color-text-muted) leading-relaxed">
+              <p className="mt-4 rounded-lg bg-(--color-bg-surface) p-4 text-sm italic text-(--color-text-muted) leading-relaxed">
                 {section.note}
               </p>
             )}
@@ -70,7 +70,7 @@ export default function CreationPage() {
                 {section.aspects.map((aspect) => (
                   <div
                     key={aspect.channel}
-                    className="rounded-xl border border-white/5 bg-(--color-deep-card) p-4"
+                    className="rounded-xl border border-(--color-border) bg-(--color-bg-elevated) p-4"
                   >
                     <div className="flex items-center gap-2">
                       <span className={`text-sm font-bold ${CHANNEL_COLORS[aspect.channel] || ""}`}>

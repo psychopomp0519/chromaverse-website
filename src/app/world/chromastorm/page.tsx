@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const EFFECT_COLORS: Record<string, string> = {
   ador: "border-ador/20 bg-ador/5",
   suppress: "border-suppress/20 bg-suppress/5",
-  void: "border-void/50 bg-white/[0.02]",
+  void: "border-void/50 bg-(--color-bg-surface)",
 };
 
 export default function ChromastormPage() {
@@ -43,7 +43,7 @@ export default function ChromastormPage() {
             {stormData.effects.map((effect) => (
               <div
                 key={effect.target}
-                className={`rounded-xl border p-5 ${EFFECT_COLORS[effect.color] || "border-white/5"}`}
+                className={`rounded-xl border p-5 ${EFFECT_COLORS[effect.color] || "border-(--color-border)"}`}
               >
                 <h3 className="font-semibold mb-2">{effect.target}</h3>
                 <p className="text-sm text-(--color-text-secondary) leading-relaxed">
@@ -61,12 +61,12 @@ export default function ChromastormPage() {
             {stormData.regionalEffects.map((re) => (
               <div
                 key={re.region}
-                className="rounded-xl border border-white/5 bg-(--color-deep-card) p-5"
+                className="rounded-xl border border-(--color-border) bg-(--color-bg-elevated) p-5"
               >
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="font-semibold">{re.region}</h3>
                   <span className="text-xs text-(--color-text-muted)">{re.areas}</span>
-                  <span className="ml-auto rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-(--color-text-muted)">
+                  <span className="ml-auto rounded-full bg-(--color-bg-surface) px-2.5 py-0.5 text-xs text-(--color-text-muted)">
                     {re.type}
                   </span>
                 </div>

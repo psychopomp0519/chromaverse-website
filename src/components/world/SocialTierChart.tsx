@@ -19,7 +19,7 @@ export function SocialTierChart({ tiers, system, title, subtitle }: SocialTierCh
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-left">
+            <tr className="border-b border-(--color-border-hover) text-left">
               <th className="pb-3 pr-3 font-semibold">계층</th>
               <th className="pb-3 pr-3 font-semibold">한자</th>
               <th className="pb-3 pr-3 font-semibold">총합</th>
@@ -30,7 +30,7 @@ export function SocialTierChart({ tiers, system, title, subtitle }: SocialTierCh
           </thead>
           <tbody>
             {tiers.map((tier, i) => (
-              <tr key={tier.id} className={`border-b border-white/[0.03] ${i === 0 && system === "rgb" ? "text-hakuten" : ""}`}>
+              <tr key={tier.id} className={`border-b border-(--color-border) ${i === 0 && system === "rgb" ? "text-hakuten" : ""}`}>
                 <td className="py-3 pr-3 font-medium">{tier.name}</td>
                 <td className="py-3 pr-3 text-(--color-text-muted)">{tier.kanji}</td>
                 <td className="py-3 pr-3 tabular-nums text-(--color-text-secondary)">{tier.totalRange}</td>
@@ -48,7 +48,7 @@ export function SocialTierChart({ tiers, system, title, subtitle }: SocialTierCh
         {tiers.map((tier, i) => (
           <div
             key={tier.id}
-            className={`rounded-xl border border-white/5 bg-(--color-deep-card) p-4 ${i === 0 && system === "rgb" ? "text-hakuten" : ""}`}
+            className={`rounded-xl border border-(--color-border) bg-(--color-bg-elevated) p-4 ${i === 0 && system === "rgb" ? "text-hakuten" : ""}`}
           >
             <div className="flex items-baseline justify-between mb-2">
               <span className="font-semibold text-base">{tier.name}</span>

@@ -49,7 +49,7 @@ export function GlossaryPopup({ term, children }: GlossaryPopupProps) {
         {children}
       </button>
       {open && (
-        <span className="absolute bottom-full left-1/2 z-50 mb-2 w-64 sm:w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-xl border border-(--color-border)/30 bg-(--color-deep-card) p-4 shadow-xl">
+        <span className="absolute bottom-full left-1/2 z-50 mb-2 w-64 sm:w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-xl border border-(--color-border)/30 bg-(--color-bg-elevated) p-4 shadow-xl">
           <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-2">
             <span className="font-semibold text-(--color-text-primary)">{entry.term}</span>
             <span className="text-xs text-(--color-text-muted)">{entry.kanji}</span>

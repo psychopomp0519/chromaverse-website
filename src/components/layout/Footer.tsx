@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12">
+    <footer className="border-t border-(--color-border) py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-4 text-center">
           <span className="text-gradient-rgb text-lg font-bold">CHROMAVERSE</span>

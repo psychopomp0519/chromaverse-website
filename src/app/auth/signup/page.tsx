@@ -47,7 +47,7 @@ export default function SignUpPage() {
             name="email"
             type="email"
             required
-            className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-(--color-text-primary) outline-none transition-colors focus:border-white/20"
+            className="w-full rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-2.5 text-sm text-(--color-text-primary) outline-none transition-colors focus:border-(--color-border-active)"
             placeholder="email@example.com"
           />
         </div>
@@ -62,7 +62,7 @@ export default function SignUpPage() {
             type="password"
             required
             minLength={6}
-            className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-(--color-text-primary) outline-none transition-colors focus:border-white/20"
+            className="w-full rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-2.5 text-sm text-(--color-text-primary) outline-none transition-colors focus:border-(--color-border-active)"
             placeholder="6자 이상"
           />
         </div>

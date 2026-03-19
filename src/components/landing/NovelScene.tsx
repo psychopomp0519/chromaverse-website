@@ -52,24 +52,20 @@ export function NovelScene() {
           프리즈마력 780년 — 카이의 기록
         </motion.p>
 
-        <blockquote className="mt-6 min-h-[7rem] text-xl leading-relaxed italic text-(--color-text-secondary) font-(family-name:--font-novel) sm:text-2xl">
-          &ldquo;
+        <blockquote className="mt-6 min-h-[7rem] text-xl leading-loose italic text-(--color-text-primary) font-(family-name:--font-novel) sm:text-2xl drop-shadow-[0_0_12px_rgba(96,165,250,0.15)]">
           {lines.map((line, i) => (
-            <span key={i}>
-              {line}
-              {i < lines.length - 1 && <br />}
-            </span>
+            <span key={i}>{i === 0 && <span className="text-3xl text-(--color-accent-primary) sm:text-4xl">{"\u201C"}</span>}{line}{i < lines.length - 1 && <br />}</span>
           ))}
           {!done && displayed.length > 0 && (
             <motion.span
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-              className="text-(--color-text-muted)"
+              className="text-(--color-accent-primary)"
             >
               |
             </motion.span>
           )}
-          {done && "&rdquo;"}
+          {done && <span className="text-3xl text-(--color-accent-primary) sm:text-4xl">{"\u201D"}</span>}
         </blockquote>
 
         <motion.div

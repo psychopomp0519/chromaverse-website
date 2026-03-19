@@ -7,18 +7,18 @@ interface GlossaryCardProps {
 
 export function GlossaryCard({ entry, allEntries }: GlossaryCardProps) {
   return (
-    <details className="group rounded-xl border border-white/5 bg-(--color-deep-card) transition-colors hover:border-white/10">
+    <details className="group rounded-xl border border-(--color-border) bg-(--color-bg-elevated) transition-colors hover:border-(--color-border-hover)">
       <summary className="flex cursor-pointer items-center gap-3 px-5 py-4 [&::-webkit-details-marker]:hidden">
         <span className="text-xs text-(--color-text-muted) transition-transform group-open:rotate-90">
           &#9656;
         </span>
         <span className="font-semibold">{entry.term}</span>
         <span className="text-xs text-(--color-text-muted)">{entry.kanji}</span>
-        <span className="ml-auto rounded-full bg-white/5 px-2 py-0.5 text-xs text-(--color-text-muted)">
+        <span className="ml-auto rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-xs text-(--color-text-muted)">
           {entry.category}
         </span>
       </summary>
-      <div className="border-t border-white/5 px-5 py-4">
+      <div className="border-t border-(--color-border) px-5 py-4">
         <p className="text-sm font-medium text-(--color-text-secondary) mb-2">
           {entry.shortDesc}
         </p>
@@ -33,7 +33,7 @@ export function GlossaryCard({ entry, allEntries }: GlossaryCardProps) {
               return (
                 <span
                   key={rel}
-                  className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-(--color-text-muted)"
+                  className="rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-xs text-(--color-text-muted)"
                 >
                   {related?.term || rel}
                 </span>

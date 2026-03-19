@@ -35,7 +35,7 @@ export default function SocietyPage() {
           {societyData.code.elements.map((el) => (
             <div
               key={el.name}
-              className="rounded-xl border border-white/5 bg-(--color-deep-card) p-5"
+              className="rounded-xl border border-(--color-border) bg-(--color-bg-elevated) p-5"
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className="font-semibold">{el.name}</span>

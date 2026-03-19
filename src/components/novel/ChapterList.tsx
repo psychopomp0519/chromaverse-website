@@ -79,7 +79,7 @@ export function ChapterList({ arcs, availableChapters }: ChapterListProps) {
                           className={`relative flex h-10 items-center justify-center rounded-lg border text-sm font-medium transition-all ${
                             isRead
                               ? "border-[var(--color-vitalis)]/30 bg-[var(--color-vitalis)]/10 text-[var(--color-vitalis)]"
-                              : "border-white/10 hover:border-cognis/30 hover:bg-cognis/10"
+                              : "border-(--color-border) hover:border-cognis/30 hover:bg-cognis/10"
                           }`}
                         >
                           {ch}
@@ -92,7 +92,7 @@ export function ChapterList({ arcs, availableChapters }: ChapterListProps) {
                       ) : (
                         <div
                           key={ch}
-                          className="flex h-10 items-center justify-center rounded-lg border border-white/[0.03] text-sm text-(--color-text-muted)/30"
+                          className="flex h-10 items-center justify-center rounded-lg border border-(--color-border) text-sm text-(--color-text-muted)/30"
                         >
                           {ch}
                         </div>

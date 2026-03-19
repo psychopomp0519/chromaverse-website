@@ -30,7 +30,7 @@ export default function EconomyPage() {
           </p>
         </section>
 
-        <section className="rounded-2xl border border-white/5 bg-(--color-deep-card) p-8">
+        <section className="rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-8">
           <div className="mb-4">
             <span className="text-xs text-(--color-text-muted)">{economyData.profession.kanji}</span>
             <h2 className="mt-1 text-2xl font-bold">{economyData.profession.name}</h2>

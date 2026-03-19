@@ -42,17 +42,17 @@ export function SpoilerGuard({
   if (isVisible || revealed) return <>{children}</>;
 
   return (
-    <div className="relative rounded-xl border border-white/5 bg-white/[0.02] p-6">
+    <div className="relative rounded-xl border border-(--color-border) bg-(--color-bg-surface) p-6">
       <div className="pointer-events-none select-none blur-sm" aria-hidden>
         {children}
       </div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-(--color-deep)/80 backdrop-blur-sm">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl bg-(--color-bg-overlay) backdrop-blur-sm">
         <p className="text-sm text-(--color-text-muted)">
           {placeholder || `이 내용은 소설 ${visibleAfter}화 이후에 공개됩니다.`}
         </p>
         <button
           onClick={() => setRevealed(true)}
-          className="rounded-lg border border-white/10 px-4 py-1.5 text-xs text-(--color-text-secondary) transition-all hover:border-white/20 hover:text-(--color-text-primary)"
+          className="rounded-lg border border-(--color-border) px-4 py-1.5 text-xs text-(--color-text-secondary) transition-all hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
         >
           스포일러 보기
         </button>

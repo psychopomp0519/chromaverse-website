@@ -170,49 +170,112 @@ body {
   backdrop-filter: blur(4px);
 }
 
-/* ========== 라이트 모드 호환성 (기존 white-opacity 클래스 전환) ========== */
+/* ========== 라이트 모드 호환성 (white-opacity → black-opacity 전환) ========== */
+
+/* Border: white/X → black/X */
 [data-theme="light"] :is(
   .border-white\/5,
-  .border-white\/\[0\.03\]
+  .border-white\/\[0\.03\],
+  .border-white\/\[0\.06\]
 ) {
-  border-color: rgba(0, 0, 0, 0.08);
-}
-[data-theme="light"] .border-white\/10 {
   border-color: rgba(0, 0, 0, 0.1);
 }
-[data-theme="light"] .border-white\/20 {
-  border-color: rgba(0, 0, 0, 0.14);
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.12);
 }
+[data-theme="light"] .border-white\/15 {
+  border-color: rgba(0, 0, 0, 0.16);
+}
+[data-theme="light"] .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+[data-theme="light"] .hover\:border-white\/10:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+[data-theme="light"] .hover\:border-white\/15:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+[data-theme="light"] .hover\:border-white\/20:hover {
+  border-color: rgba(0, 0, 0, 0.22);
+}
+
+/* Background: white/X → black/X */
 [data-theme="light"] :is(
   .bg-white\/5,
+  .bg-white\/\[0\.02\],
   .bg-white\/\[0\.03\]
 ) {
   background-color: rgba(0, 0, 0, 0.04);
 }
+[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06);
+}
 [data-theme="light"] .hover\:bg-white\/5:hover {
   background-color: rgba(0, 0, 0, 0.06);
+}
+[data-theme="light"] .hover\:bg-white\/\[0\.04\]:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 [data-theme="light"] .active\:bg-white\/10:active {
   background-color: rgba(0, 0, 0, 0.08);
 }
-[data-theme="light"] .hover\:border-white\/10:hover {
-  border-color: rgba(0, 0, 0, 0.1);
+
+/* Fill/Stroke: white → dark */
+[data-theme="light"] .fill-white {
+  fill: var(--color-text-primary);
 }
-[data-theme="light"] .hover\:border-white\/20:hover {
-  border-color: rgba(0, 0, 0, 0.14);
+[data-theme="light"] .fill-white\/70 {
+  fill: var(--color-text-secondary);
+}
+[data-theme="light"] .fill-white\/80 {
+  fill: var(--color-text-secondary);
+}
+[data-theme="light"] .stroke-white {
+  stroke: var(--color-text-primary);
 }
 
-/* 라이트 모드: hakuten 텍스트 보정 */
+/* Text: group-hover:text-white → accent */
+[data-theme="light"] .group-hover\:text-white:is(:where(.group):hover *) {
+  color: var(--color-accent-primary);
+}
+
+/* hakuten 텍스트 보정 */
 [data-theme="light"] .text-hakuten {
   color: var(--color-ador-dark);
 }
 
-/* 라이트 모드: 소설 리더 보정 */
+/* 소설 리더 보정 */
 [data-theme="light"] .border-cognis\/30 {
   border-color: rgba(69, 123, 157, 0.3);
 }
 [data-theme="light"] .border-cognis\/40 {
   border-color: rgba(69, 123, 157, 0.4);
+}
+
+/* 에러 메시지 보정 */
+[data-theme="light"] .bg-red-500\/10 {
+  background-color: rgba(220, 38, 38, 0.08);
+}
+[data-theme="light"] .text-red-400 {
+  color: #dc2626;
+}
+
+/* deep-card 보정 */
+[data-theme="light"] .bg-\(--color-deep-card\) {
+  background-color: var(--color-bg-elevated);
+}
+
+/* glow 효과 약화 */
+[data-theme="light"] .glow-rgb {
+  box-shadow:
+    0 0 12px rgba(230, 57, 70, 0.08),
+    0 0 24px rgba(45, 106, 79, 0.05),
+    0 0 36px rgba(69, 123, 157, 0.05);
+}
+
+/* suppress-light → 라이트모드에서 대비 보정 */
+[data-theme="light"] .text-suppress-light {
+  color: var(--color-suppress);
 }
 
 /* 스크롤바 숨김 */

@@ -38,7 +38,7 @@ export function AuthButton() {
           await supabase.auth.signOut();
           router.refresh();
         }}
-        className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-white/20 hover:text-(--color-text-primary)"
+        className="rounded-lg border border-(--color-border) px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
       >
         로그아웃
       </button>
@@ -48,7 +48,7 @@ export function AuthButton() {
   return (
     <Link
       href="/auth/login"
-      className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-white/20 hover:text-(--color-text-primary)"
+      className="rounded-lg border border-(--color-border) px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
     >
       로그인
     </Link>

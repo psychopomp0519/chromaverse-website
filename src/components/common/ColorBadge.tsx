@@ -31,7 +31,7 @@ export function ColorBadge({ color, children, className }: ColorBadgeProps) {
     <span
       className={cn(
         "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium",
-        COLOR_MAP[color] || "bg-white/10 text-(--color-text-secondary)",
+        COLOR_MAP[color] || "bg-(--color-bg-elevated) text-(--color-text-secondary)",
         className
       )}
     >

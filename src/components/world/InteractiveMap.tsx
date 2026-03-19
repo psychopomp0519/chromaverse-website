@@ -265,7 +265,7 @@ export function InteractiveMap() {
 
         {/* Hover tooltip */}
         {hoveredRegion && !selectedRegion && (
-          <div className="mt-4 rounded-xl border border-white/10 bg-(--color-deep-card) px-4 py-3 text-center transition-all">
+          <div className="mt-4 rounded-xl border border-(--color-border-hover) bg-(--color-bg-elevated) px-4 py-3 text-center transition-all">
             <div className="flex items-center justify-center gap-2">
               <span className="h-3 w-3 rounded-full" style={{ backgroundColor: hoveredRegion.color }} />
               <span className="font-bold">{hoveredRegion.name}</span>

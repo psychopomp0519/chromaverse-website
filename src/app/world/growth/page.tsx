@@ -28,7 +28,7 @@ export default function GrowthPage() {
 
       <div className="space-y-4">
         {growthData.systems.map((system) => {
-          const style = COLOR_MAP[system.color] || { border: "border-white/5", bg: "" };
+          const style = COLOR_MAP[system.color] || { border: "border-(--color-border)", bg: "" };
           return (
             <section
               key={system.id}
@@ -36,7 +36,7 @@ export default function GrowthPage() {
             >
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs text-(--color-text-muted)">{system.kanji}</span>
-                <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-(--color-text-muted)">
+                <span className="rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-xs text-(--color-text-muted)">
                   {system.type}
                 </span>
               </div>

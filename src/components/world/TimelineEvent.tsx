@@ -6,13 +6,13 @@ interface TimelineEventProps {
 
 export function TimelineEvent({ event }: TimelineEventProps) {
   return (
-    <div className="group relative flex gap-6 rounded-xl p-4 transition-colors hover:bg-white/[0.02]">
+    <div className="group relative flex gap-6 rounded-xl p-4 transition-colors hover:bg-(--color-bg-surface)">
       <div className="relative z-10 mt-1.5">
         <div
           className={`h-[10px] w-[10px] rounded-full border-2 ${
             event.inNovel
               ? "border-ador bg-ador/30"
-              : "border-white/20 bg-(--color-deep-card)"
+              : "border-(--color-border-hover) bg-(--color-bg-elevated)"
           }`}
         />
       </div>

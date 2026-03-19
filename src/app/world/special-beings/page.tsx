@@ -39,7 +39,7 @@ export default function SpecialBeingsPage() {
             {data.jamjaeHyunhyun.types.map((type) => (
               <div
                 key={type.id}
-                className={`rounded-2xl border p-6 ${TYPE_COLORS[type.color] || "border-white/5"}`}
+                className={`rounded-2xl border p-6 ${TYPE_COLORS[type.color] || "border-(--color-border)"}`}
               >
                 <div className="mb-3">
                   <span className="text-xs text-(--color-text-muted)">{type.example}</span>
@@ -62,7 +62,7 @@ export default function SpecialBeingsPage() {
             ))}
           </div>
 
-          <p className="mt-6 rounded-xl bg-white/[0.03] p-4 text-sm italic text-(--color-text-muted) leading-relaxed">
+          <p className="mt-6 rounded-xl bg-(--color-bg-surface) p-4 text-sm italic text-(--color-text-muted) leading-relaxed">
             {data.jamjaeHyunhyun.significance}
           </p>
         </section>

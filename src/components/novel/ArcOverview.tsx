@@ -42,7 +42,7 @@ export function ArcOverview({ arcs }: ArcOverviewProps) {
             {arc.keywords.split(", ").map((kw) => (
               <span
                 key={kw}
-                className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-(--color-text-muted)"
+                className="rounded-full bg-(--color-bg-surface) px-2 py-0.5 text-xs text-(--color-text-muted)"
               >
                 {kw}
               </span>
