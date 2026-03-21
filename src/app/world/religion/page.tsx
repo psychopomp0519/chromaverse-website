@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { ReligionCompare } from "@/components/world/ReligionCompare";
 import religions from "@/content/world/religion.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "종교 — 삼파 대립",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function ReligionPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="religion" alt="종교" />
       <SectionHeader
         title="종교 — 삼파 대립"
         kanji="三派"

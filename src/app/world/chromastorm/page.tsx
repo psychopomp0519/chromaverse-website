@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import stormData from "@/content/world/chromastorm.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "크로마스톰",
@@ -16,6 +17,7 @@ const EFFECT_COLORS: Record<string, string> = {
 export default function ChromastormPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="chromastorm" alt="크로마스톰" />
       <SectionHeader
         title="크로마스톰"
         kanji={stormData.kanji}

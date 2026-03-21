@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { PowerSystem } from "@/components/world/PowerSystem";
 import { ChromaSimulator } from "@/components/world/ChromaSimulator";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "힘의 체계 — RGB · CMYK",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function PowerPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-24 sm:px-6">
+      <WorldHero section="power" alt="힘의 체계" />
       <SectionHeader
         title="힘의 체계"
         kanji="RGB · CMYK"

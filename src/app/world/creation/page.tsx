@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import creationData from "@/content/world/creation.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "창세 신화 — 프리즈마폴",
@@ -31,6 +32,7 @@ const CHANNEL_COLORS: Record<string, string> = {
 export default function CreationPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="creation" alt="창세 신화" />
       <SectionHeader
         title="창세 신화"
         kanji="大散光"

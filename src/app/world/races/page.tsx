@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { RaceCard } from "@/components/world/RaceCard";
 import racesData from "@/content/world/races.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "종족 — 렌과 묵렌",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function RacesPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="races" alt="종족" />
       <SectionHeader
         title="종족과 존재"
         kanji="煉 · 墨煉"

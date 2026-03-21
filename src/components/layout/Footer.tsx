@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 
 const WORLD_TEASERS = [
@@ -20,6 +22,9 @@ export function Footer() {
   const [index, setIndex] = useState(0);
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     setIndex(Math.floor(Math.random() * WORLD_TEASERS.length));
@@ -48,7 +53,17 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-6 text-center">
           {/* Accent glow divider */}
-          <div className="h-px w-16 bg-gradient-to-r from-transparent via-(--color-accent-primary)/40 to-transparent" />
+          <div className="relative h-[10px] w-64 overflow-hidden">
+            {mounted && (
+              <Image
+                src={theme === "light" ? "/images/ui/divider-light.webp" : "/images/ui/divider-dark.webp"}
+                alt=""
+                fill
+                className="object-contain"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
+            )}
+          </div>
 
           {/* World Teaser */}
           <motion.div

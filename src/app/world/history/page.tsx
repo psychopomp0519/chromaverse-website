@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { Timeline } from "@/components/world/Timeline";
 import events from "@/content/world/history.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "역사 — 프리즈마력 연표",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function HistoryPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="history" alt="역사" />
       <SectionHeader
         title="역사 연표"
         kanji="年表"

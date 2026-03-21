@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import economyData from "@/content/world/economy.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "경제 — 레스 체계",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default function EconomyPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="economy" alt="경제" />
       <SectionHeader
         title="경제 — 레스 체계"
         kanji="共鳴石"

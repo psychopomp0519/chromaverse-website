@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { InteractiveMap } from "@/components/world/InteractiveMap";
 import regions from "@/content/world/geography.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "지리 — 크로마라",
@@ -27,6 +28,7 @@ export default function GeographyPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-24 sm:px-6">
+      <WorldHero section="geography" alt="지리" />
       <SectionHeader
         title="크로마라의 지리"
         kanji="彩界"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import growthData from "@/content/world/growth.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "성장 체계",
@@ -20,6 +21,7 @@ const COLOR_MAP: Record<string, { border: string; bg: string }> = {
 export default function GrowthPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="growth" alt="성장" />
       <SectionHeader
         title="성장 체계"
         kanji="彩度 · 分光"

@@ -3,6 +3,7 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { SocialTierChart } from "@/components/world/SocialTierChart";
 import societyData from "@/content/world/society.json";
 import type { SocialTier } from "@/types/world";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "사회 · 코드 체계",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 export default function SocietyPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-24 sm:px-6">
+      <WorldHero section="society" alt="사회" />
       <SectionHeader
         title="사회 계층과 코드 체계"
         kanji="和音"

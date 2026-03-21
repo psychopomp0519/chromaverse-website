@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import data from "@/content/world/special-beings.json";
+import { WorldHero } from "@/components/world/WorldHero";
 
 export const metadata: Metadata = {
   title: "특수 존재",
@@ -15,6 +16,7 @@ const TYPE_COLORS: Record<string, string> = {
 export default function SpecialBeingsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
+      <WorldHero section="special-beings" alt="특수 존재" />
       <SectionHeader
         title="특수 존재"
         kanji="潜在顕現 · 反転"
