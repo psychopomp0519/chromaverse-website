@@ -5,6 +5,8 @@ import Link from "next/link";
 import { getReadChapters } from "@/lib/reading";
 import { createClient } from "@/lib/supabase/client";
 import type { ChapterSummary } from "@/lib/content";
+import { getChapterStatus, type ChapterStatus } from "@/lib/schedule";
+import { NewBadge } from "./NewBadge";
 
 const ARC_COLORS = [
   { active: "border-cognis/40 bg-cognis/10 text-cognis", tab: "bg-cognis/15 text-cognis border-cognis/30" },
@@ -141,7 +143,36 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                     const summary = summaryMap.get(ch);
                     if (!summary) return null;
                     const isRead = readChapters.includes(ch);
+                    const status = getChapterStatus(ch);
 
+                    // 미공개 화 — 잠금 표시
+                    if (!status.released) {
+                      const daysLeft = status.releaseDate
+                        ? Math.ceil((status.releaseDate.getTime() - Date.now()) / 86400000)
+                        : null;
+                      return (
+                        <div
+                          key={ch}
+                          className="flex items-center gap-3 rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-3 opacity-50"
+                        >
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-(--color-bg-elevated) text-[10px] text-(--color-text-muted)">
+                            🔒
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <span className="text-sm font-medium text-(--color-text-muted)">
+                              {ch}화
+                            </span>
+                          </div>
+                          {daysLeft !== null && daysLeft > 0 && (
+                            <span className="shrink-0 text-xs font-medium text-cognis">
+                              D-{daysLeft}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    }
+
+                    // 공개 화
                     return (
                       <Link
                         key={ch}
@@ -170,6 +201,7 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                           <span className="text-sm text-(--color-text-secondary)">
                             {summary.title}
                           </span>
+                          {status.isNew && <NewBadge />}
                         </div>
 
                         {/* 글자수 */}

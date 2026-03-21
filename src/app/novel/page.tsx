@@ -5,7 +5,8 @@ import { NovelTOC } from "@/components/novel/NovelTOC";
 import { ContinueReading } from "@/components/novel/ContinueReading";
 import { ReadingProgress } from "@/components/novel/ReadingProgress";
 import novelMeta from "@/content/novel/meta.json";
-import { getAllChapterNumbers, getAllChapterSummaries } from "@/lib/content";
+import { getAllChapterNumbers, getAvailableChapterNumbers, getAllChapterSummaries } from "@/lib/content";
+import { NextReleaseCard } from "@/components/novel/NextReleaseCard";
 
 export const metadata: Metadata = {
   title: "소설 — 크로마버스",
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default function NovelPage() {
-  const availableChapters = getAllChapterNumbers();
+  const allChapters = getAllChapterNumbers();
+  const availableChapters = getAvailableChapterNumbers();
   const chapterSummaries = getAllChapterSummaries();
 
   return (
@@ -24,6 +26,9 @@ export default function NovelPage() {
         subtitle="700화의 대서사"
         description="기록관 카이가 들려주는 빛과 어둠의 이야기. 세계를 바꾼 네 사람의 기록."
       />
+
+      {/* 다음 연재 카운트다운 */}
+      <NextReleaseCard />
 
       {/* 이어읽기 + 진행률 */}
       <section className="mb-12 space-y-4">

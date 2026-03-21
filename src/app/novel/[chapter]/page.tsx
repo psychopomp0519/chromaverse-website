@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getChapter, getAllChapterNumbers } from "@/lib/content";
+import { getChapter, getAllChapterNumbers, getAvailableChapterNumbers } from "@/lib/content";
 import { ReaderContent } from "./ReaderContent";
+import { ChapterGate } from "@/components/novel/ChapterGate";
 
 export function generateStaticParams() {
   return getAllChapterNumbers().map((ch) => ({
@@ -31,17 +31,20 @@ export default async function ChapterPage({
   if (!chapter) notFound();
 
   const allChapters = getAllChapterNumbers();
-  const hasPrev = allChapters.includes(num - 1);
-  const hasNext = allChapters.includes(num + 1);
+  const available = getAvailableChapterNumbers();
+  const hasPrev = available.includes(num - 1);
+  const hasNext = available.includes(num + 1);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <ReaderContent
-        chapter={chapter}
-        chapterNum={num}
-        hasPrev={hasPrev}
-        hasNext={hasNext}
-      />
+      <ChapterGate chapter={num}>
+        <ReaderContent
+          chapter={chapter}
+          chapterNum={num}
+          hasPrev={hasPrev}
+          hasNext={hasNext}
+        />
+      </ChapterGate>
     </div>
   );
 }

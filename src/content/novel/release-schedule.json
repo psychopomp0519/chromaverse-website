@@ -1,0 +1,15 @@
+{
+  "schedule": [
+    { "chapter": 1, "releaseDate": "2026-03-01T00:00:00+09:00" },
+    { "chapter": 2, "releaseDate": "2026-03-01T00:00:00+09:00" },
+    { "chapter": 3, "releaseDate": "2026-03-01T00:00:00+09:00" },
+    { "chapter": 4, "releaseDate": "2026-03-01T00:00:00+09:00" },
+    { "chapter": 5, "releaseDate": "2026-03-01T00:00:00+09:00" },
+    { "chapter": 6, "releaseDate": "2026-04-01T00:00:00+09:00" },
+    { "chapter": 7, "releaseDate": "2026-04-04T00:00:00+09:00" },
+    { "chapter": 8, "releaseDate": "2026-04-07T00:00:00+09:00" },
+    { "chapter": 9, "releaseDate": "2026-04-10T00:00:00+09:00" },
+    { "chapter": 10, "releaseDate": "2026-04-14T00:00:00+09:00" }
+  ],
+  "timezone": "Asia/Seoul"
+}

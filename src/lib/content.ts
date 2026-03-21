@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { cache } from "react";
+import { getReleasedChapters } from "./schedule";
 
 const CHAPTERS_DIR = path.join(process.cwd(), "src/content/novel/chapters");
 
@@ -33,6 +34,11 @@ export function getAllChapterNumbers(): number[] {
   } catch {
     return [];
   }
+}
+
+/** 공개된 챕터만 반환 (스케줄 기반 필터) */
+export function getAvailableChapterNumbers(): number[] {
+  return getReleasedChapters(getAllChapterNumbers());
 }
 
 export interface ChapterSummary {
