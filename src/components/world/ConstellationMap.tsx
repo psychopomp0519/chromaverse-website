@@ -127,9 +127,9 @@ export function ConstellationMap() {
                   y1={node.y}
                   x2={entered ? target.x : node.x}
                   y2={entered ? target.y : node.y}
-                  stroke={isHighlighted ? node.color : "var(--color-border)"}
-                  strokeWidth={isHighlighted ? 0.3 : 0.15}
-                  strokeOpacity={entered ? (bothUnlocked ? (isHighlighted ? 0.8 : 0.3) : 0.1) : 0}
+                  stroke={isHighlighted ? node.color : "var(--color-text-muted)"}
+                  strokeWidth={isHighlighted ? 0.4 : 0.2}
+                  strokeOpacity={entered ? (bothUnlocked ? (isHighlighted ? 0.9 : 0.45) : 0.15) : 0}
                   style={{ transition: "all 0.8s ease" }}
                 />
               );

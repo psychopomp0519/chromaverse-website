@@ -3,6 +3,7 @@
 import { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import { useReaderStore } from "@/stores/reader";
 import { useUnlockStore } from "@/stores/unlock";
 import { buildGlossaryContext, highlightGlossaryTerms } from "@/components/novel/GlossaryPopup";
@@ -21,8 +22,19 @@ interface ReaderContentProps {
 
 export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderContentProps) {
   const { fontSize, lineHeight, increaseFontSize, decreaseFontSize, cycleLineHeight, readerTheme, setReaderTheme } = useReaderStore();
+  const { theme: siteTheme } = useTheme();
   const markComplete = useUnlockStore((s) => s.markChapterComplete);
   const [progress, setProgress] = useState(0);
+
+  // Sync reader theme with site theme on mount and when site theme changes
+  useEffect(() => {
+    const resolved = siteTheme || document.documentElement.getAttribute("data-theme") || "dark";
+    if (resolved === "light" && readerTheme === "dark") {
+      setReaderTheme("light");
+    } else if (resolved === "dark" && readerTheme === "light") {
+      setReaderTheme("dark");
+    }
+  }, [siteTheme]);
   const [uiVisible, setUiVisible] = useState(true);
   const lastScrollY = useRef(0);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -122,7 +134,7 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
 
   // 장면 전환 배경색 — progress에 따라 미묘한 색온도 변화 (3s transition)
   const sceneHue = readerTheme === "dark"
-    ? `hsl(230, 15%, ${4 + progress * 3}%)`    // 어둠: 약간 밝아짐
+    ? `hsl(230, 12%, ${8 + progress * 4}%)`    // 어둠: 8~12% (가독성 확보)
     : readerTheme === "sepia"
     ? `hsl(${35 + progress * 10}, 40%, ${97 - progress * 3}%)` // 세피아: 따뜻해짐
     : undefined; // 라이트는 그대로

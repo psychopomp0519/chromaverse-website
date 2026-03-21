@@ -2,13 +2,18 @@
  * 세계관/설정 문서 검증 + 스크린샷 캡처
  *
  * 용도: 설정 문서 변경 후 웹사이트에 반영된 결과를 스크린샷으로 검증
- * 사용법: node scripts/verify-settings.mjs [mode]
+ * 사용법: node scripts/verify-settings.mjs [mode] [--light] [--mobile] [--no-clear]
  *
  * mode:
  *   all      — 전체 페이지 스크린샷 (기본)
  *   world    — 세계관 관련 페이지만
  *   novel    — 소설 관련 페이지만
  *   quick    — 랜딩 + 세계관 허브 + 소설 허브만
+ *
+ * flags:
+ *   --light  — 라이트 모드로 캡처 (접두사 light-)
+ *   --mobile — 모바일 뷰포트 390x844 (접두사 m-)
+ *   --no-clear — 기존 스크린샷 삭제하지 않음
  */
 
 import puppeteer from "puppeteer";
@@ -18,7 +23,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SCREENSHOTS_DIR = path.join(__dirname, "..", "screenshots");
-const BASE = "http://localhost:3099";
+const BASE = process.env.BASE_URL || "http://localhost:3000";
 
 const PAGES = {
   core: [
@@ -34,14 +39,14 @@ const PAGES = {
     { name: "world-geography", url: "/world/geography" },
     { name: "world-history", url: "/world/history" },
     { name: "world-economy", url: "/world/economy" },
-    { name: "world-codes", url: "/world/codes" },
-    { name: "world-storms", url: "/world/storms" },
-    { name: "world-border", url: "/world/border" },
+    { name: "world-glossary", url: "/world/glossary" },
+    { name: "world-chromastorm", url: "/world/chromastorm" },
+    { name: "world-growth", url: "/world/growth" },
+    { name: "world-special-beings", url: "/world/special-beings" },
   ],
   novel: [
     { name: "novel-hub", url: "/novel" },
     { name: "novel-ch1", url: "/novel/1" },
-    { name: "novel-ch11", url: "/novel/11" },
     { name: "novel-characters", url: "/novel/characters" },
   ],
   auth: [
@@ -60,19 +65,46 @@ const MODES = {
   quick: [PAGES.core[0], PAGES.world[0], PAGES.novel[0]],
 };
 
-async function clearScreenshots() {
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const flags = { light: false, mobile: false, noClear: false };
+  let mode = "all";
+
+  for (const arg of args) {
+    if (arg === "--light") flags.light = true;
+    else if (arg === "--mobile") flags.mobile = true;
+    else if (arg === "--no-clear") flags.noClear = true;
+    else if (MODES[arg]) mode = arg;
+  }
+
+  return { mode, ...flags };
+}
+
+function getPrefix(flags) {
+  const parts = [];
+  if (flags.mobile) parts.push("m");
+  if (flags.light) parts.push("light");
+  return parts.length > 0 ? parts.join("-") + "-" : "";
+}
+
+async function clearScreenshots(prefix) {
   if (fs.existsSync(SCREENSHOTS_DIR)) {
-    const files = fs.readdirSync(SCREENSHOTS_DIR).filter(f => f.endsWith('.png'));
+    const files = fs.readdirSync(SCREENSHOTS_DIR).filter(f => {
+      if (!f.endsWith('.png')) return false;
+      if (prefix) return f.startsWith(prefix);
+      // default: only clear unprefixed files
+      return !f.startsWith("m-") && !f.startsWith("light-") && !f.startsWith("m-light-");
+    });
     for (const f of files) {
       fs.unlinkSync(path.join(SCREENSHOTS_DIR, f));
     }
-    console.log(`Cleared ${files.length} existing screenshots.`);
+    console.log(`Cleared ${files.length} existing screenshots (prefix: "${prefix || "(none)"}").`);
   } else {
     fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
   }
 }
 
-async function capturePages(pages, viewport = { width: 1280, height: 900 }) {
+async function capturePages(pages, { viewport, prefix, light }) {
   const browser = await puppeteer.launch({
     headless: "new",
     executablePath: "/usr/bin/chromium",
@@ -86,15 +118,38 @@ async function capturePages(pages, viewport = { width: 1280, height: 900 }) {
     await page.setViewport(viewport);
 
     try {
+      // Set theme before navigation (next-themes reads localStorage on hydration)
+      if (light) {
+        await page.evaluateOnNewDocument(() => {
+          localStorage.setItem("theme", "light");
+          // Immediately set data-theme so SSR content renders in light
+          document.addEventListener("DOMContentLoaded", () => {
+            document.documentElement.setAttribute("data-theme", "light");
+            document.documentElement.style.colorScheme = "light";
+          });
+        });
+      }
+
       const response = await page.goto(`${BASE}${pg.url}`, {
         waitUntil: "networkidle2",
-        timeout: 20000,
+        timeout: 30000,
       });
       const status = response?.status() ?? 0;
 
+      // Ensure theme is fully applied after hydration
+      if (light) {
+        await page.evaluate(() => {
+          document.documentElement.setAttribute("data-theme", "light");
+          document.documentElement.style.colorScheme = "light";
+        });
+        // Wait for React to re-render with theme change
+        await new Promise(r => setTimeout(r, 1000));
+      }
+
       if (pg.waitFor) await new Promise(r => setTimeout(r, pg.waitFor));
 
-      const filepath = path.join(SCREENSHOTS_DIR, `${pg.name}.png`);
+      const filename = `${prefix}${pg.name}.png`;
+      const filepath = path.join(SCREENSHOTS_DIR, filename);
       await page.screenshot({ path: filepath, fullPage: true });
 
       results.push({ name: pg.name, url: pg.url, status, ok: status === 200, file: filepath });
@@ -110,7 +165,7 @@ async function capturePages(pages, viewport = { width: 1280, height: 900 }) {
 }
 
 async function run() {
-  const mode = process.argv[2] || "all";
+  const { mode, light, mobile, noClear } = parseArgs();
   const pages = MODES[mode];
 
   if (!pages) {
@@ -118,14 +173,22 @@ async function run() {
     process.exit(1);
   }
 
-  console.log(`\n=== Screenshot Verification (mode: ${mode}) ===\n`);
+  const prefix = getPrefix({ light, mobile });
+  const viewport = mobile
+    ? { width: 390, height: 844 }
+    : { width: 1280, height: 900 };
+  const label = `${mobile ? "mobile" : "desktop"} ${light ? "light" : "dark"}`;
+
+  console.log(`\n=== Screenshot Verification (mode: ${mode}, ${label}) ===\n`);
 
   // 1. 기존 스크린샷 삭제
-  await clearScreenshots();
+  if (!noClear) {
+    await clearScreenshots(prefix);
+  }
 
-  // 2. 데스크톱 캡처
-  console.log(`Capturing ${pages.length} pages (desktop 1280x900)...\n`);
-  const results = await capturePages(pages);
+  // 2. 캡처
+  console.log(`Capturing ${pages.length} pages (${label} ${viewport.width}x${viewport.height})...\n`);
+  const results = await capturePages(pages, { viewport, prefix, light });
 
   // 3. 결과 출력
   console.log("\n=== Results ===\n");

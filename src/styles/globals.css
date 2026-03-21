@@ -290,6 +290,38 @@ body {
   color: var(--color-suppress);
 }
 
+/* Range input 스타일 (ChromaSimulator) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-bg-surface);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: currentColor;
+  cursor: pointer;
+  border: 2px solid var(--color-bg-elevated);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: currentColor;
+  cursor: pointer;
+  border: 2px solid var(--color-bg-elevated);
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--color-bg-surface);
+  border-radius: 3px;
+}
+
 /* 스크롤바 숨김 */
 .scrollbar-none {
   -ms-overflow-style: none;

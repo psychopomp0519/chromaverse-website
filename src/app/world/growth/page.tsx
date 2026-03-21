@@ -14,7 +14,7 @@ const COLOR_MAP: Record<string, { border: string; bg: string }> = {
   koji: { border: "border-koji/20", bg: "bg-koji/5" },
   ador: { border: "border-ador/20", bg: "bg-ador/5" },
   hakuten: { border: "border-hakuten/20", bg: "bg-hakuten/5" },
-  border: { border: "border-border/20", bg: "bg-border/5" },
+  meichi: { border: "border-meichi/20", bg: "bg-meichi/5" },
   shiji: { border: "border-shiji/20", bg: "bg-shiji/5" },
 };
 
