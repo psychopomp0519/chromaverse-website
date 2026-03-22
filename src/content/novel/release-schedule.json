@@ -1,12 +1,12 @@
 {
   "timezone": "Asia/Seoul",
-  "maxChapter": 10,
+  "maxChapter": 12,
   "batch": [
-    { "chapters": [1, 2, 3, 4, 5], "releaseDate": "2026-03-01T00:00:00+09:00" }
+    { "chapters": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "releaseDate": "2026-03-22T00:00:00+09:00" }
   ],
   "recurring": {
-    "startChapter": 6,
-    "startDate": "2026-03-22T09:00:00+09:00",
+    "startChapter": 11,
+    "startDate": "2026-03-23T09:00:00+09:00",
     "intervalDays": 2
   }
 }
