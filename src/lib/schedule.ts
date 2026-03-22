@@ -75,3 +75,8 @@ export function getNextRelease(now: Date = new Date()): NextRelease | null {
 export function getAllChapterStatuses(allChapters: number[], now: Date = new Date()): ChapterStatus[] {
   return allChapters.map((ch) => getChapterStatus(ch, now));
 }
+
+/** 현재 시점 기준 공개된 화수 반환 */
+export function getReleasedChapterCount(now: Date = new Date()): number {
+  return scheduleData.schedule.filter((e) => now >= new Date(e.releaseDate)).length;
+}

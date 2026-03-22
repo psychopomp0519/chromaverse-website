@@ -29,7 +29,6 @@ const MENU_ITEMS = [
 ];
 
 const RADIUS = 90;
-const MOBILE_RADIUS = 80;
 
 export function RadialMenu({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);

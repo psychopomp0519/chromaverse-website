@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo") || "/";
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,7 +31,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/");
+    router.push(returnTo);
     router.refresh();
   }
 
@@ -84,10 +86,18 @@ export default function LoginPage() {
 
       <p className="mt-6 text-sm text-(--color-text-muted)">
         계정이 없으신가요?{" "}
-        <Link href="/auth/signup" className="text-(--color-text-primary) underline">
+        <Link href={`/auth/signup${returnTo !== "/" ? `?returnTo=${encodeURIComponent(returnTo)}` : ""}`} className="text-(--color-text-primary) underline">
           회원가입
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-[80vh] items-center justify-center"><p className="text-sm text-(--color-text-muted)">로딩 중...</p></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

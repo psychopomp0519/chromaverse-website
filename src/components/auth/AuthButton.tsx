@@ -32,16 +32,24 @@ export function AuthButton() {
 
   if (user) {
     return (
-      <button
-        onClick={async () => {
-          const supabase = createClient();
-          await supabase.auth.signOut();
-          router.refresh();
-        }}
-        className="rounded-lg border border-(--color-border) px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
-      >
-        로그아웃
-      </button>
+      <div className="flex items-center gap-1.5">
+        <Link
+          href="/profile"
+          className="rounded-lg border border-(--color-border) px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
+        >
+          프로필
+        </Link>
+        <button
+          onClick={async () => {
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            router.refresh();
+          }}
+          className="rounded-lg border border-(--color-border) px-3 py-1.5 text-xs text-(--color-text-secondary) transition-colors hover:border-(--color-border-hover) hover:text-(--color-text-primary)"
+        >
+          로그아웃
+        </button>
+      </div>
     );
   }
 

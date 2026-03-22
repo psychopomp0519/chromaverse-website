@@ -14,18 +14,22 @@ const PAGE_SIZE = 20;
 export async function getComments(
   chapter: number,
   page: number = 0
-): Promise<{ comments: Comment[]; hasMore: boolean }> {
+): Promise<{ comments: Comment[]; hasMore: boolean; error?: string }> {
   const supabase = createClient();
 
   const from = page * PAGE_SIZE;
   const to = from + PAGE_SIZE;
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("comments")
     .select("*")
     .eq("chapter", chapter)
     .order("created_at", { ascending: false })
     .range(from, to);
+
+  if (error) {
+    return { comments: [], hasMore: false, error: "댓글을 불러오지 못했습니다." };
+  }
 
   const comments = data?.slice(0, PAGE_SIZE) ?? [];
   const hasMore = (data?.length ?? 0) > PAGE_SIZE;

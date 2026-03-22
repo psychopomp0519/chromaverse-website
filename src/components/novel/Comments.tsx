@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import {
   getComments,
   addComment,
@@ -20,6 +21,7 @@ export function Comments({ chapter }: CommentsProps) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -27,6 +29,13 @@ export function Comments({ chapter }: CommentsProps) {
   const loadComments = useCallback(async (reset = true) => {
     const p = reset ? 0 : page;
     const result = await getComments(chapter, p);
+    if (result.error) {
+      setLoadError(result.error);
+      setLoading(false);
+      setLoadingMore(false);
+      return;
+    }
+    setLoadError(null);
     if (reset) {
       setComments(result.comments);
       setPage(0);
@@ -131,16 +140,18 @@ export function Comments({ chapter }: CommentsProps) {
         </form>
       ) : (
         <div className="mb-8 rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-3 text-center text-sm text-(--color-text-muted)">
-          <a href="/auth/login" className="underline hover:text-(--color-text-primary)">
+          <Link href={`/auth/login?returnTo=${encodeURIComponent(`/novel/${chapter}`)}`} className="underline hover:text-(--color-text-primary)">
             로그인
-          </a>
+          </Link>
           하면 댓글을 남길 수 있습니다.
         </div>
       )}
 
       {/* 댓글 목록 */}
       {loading ? (
-        <p className="text-sm text-(--color-text-muted)">불러오는 중...</p>
+        <p className="text-sm text-(--color-text-muted)">댓글을 불러오는 중...</p>
+      ) : loadError ? (
+        <p className="text-sm text-red-400">{loadError}</p>
       ) : comments.length === 0 ? (
         <p className="text-sm text-(--color-text-muted)">
           아직 댓글이 없습니다. 첫 번째 댓글을 남겨보세요!

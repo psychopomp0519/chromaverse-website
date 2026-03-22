@@ -80,25 +80,29 @@ export function ConstellationMap() {
   const hoveredNode = hovered ? getNode(hovered) : null;
   const connectedIds = hoveredNode ? new Set(hoveredNode.connections) : new Set<string>();
 
+  // 기본 해제 노드 (0화 기준: creation, races, glossary)
+  const baseUnlocked = UNLOCK_MAP[0] ?? [];
+
   function isUnlocked(nodeId: string): boolean {
-    if (!isLoggedIn) return true; // 비로그인 시 모두 표시
     const mapped = nodeId === "special" ? "special-beings" : nodeId;
+    if (!isLoggedIn) return baseUnlocked.includes(mapped);
     return unlockedNodes.includes(mapped);
   }
 
   const totalNodes = NODES.length;
-  const unlockedCount = isLoggedIn
-    ? NODES.filter((n) => isUnlocked(n.id)).length
-    : totalNodes;
+  const unlockedCount = NODES.filter((n) => isUnlocked(n.id)).length;
 
   return (
     <>
-      {/* 진행률 표시 (로그인 시) */}
-      {isLoggedIn && (
-        <p className="mb-4 text-center text-xs text-(--color-text-muted)">
-          {unlockedCount}/{totalNodes} 해제
-        </p>
-      )}
+      {/* 진행률 표시 */}
+      <p className="mb-4 text-center text-xs text-(--color-text-muted)">
+        {unlockedCount}/{totalNodes} 해제
+        {!isLoggedIn && (
+          <span className="ml-1">
+            · <Link href="/auth/login?returnTo=/world" className="underline hover:text-(--color-text-primary)">로그인</Link>하면 소설 읽기 진행에 따라 더 많은 세계관이 열립니다
+          </span>
+        )}
+      </p>
 
       {/* Desktop: SVG Map */}
       <div ref={svgRef} className="relative mx-auto hidden w-full max-w-5xl md:block" style={{ aspectRatio: "16/10" }}>

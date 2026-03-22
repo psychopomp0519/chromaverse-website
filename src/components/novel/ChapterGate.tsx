@@ -10,7 +10,7 @@ interface ChapterGateProps {
 }
 
 export function ChapterGate({ chapter, children }: ChapterGateProps) {
-  const [allowed, setAllowed] = useState<boolean | null>(null);
+  const [allowed, setAllowed] = useState<boolean | null>(() => isReleased(chapter));
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0 });
 
   useEffect(() => {

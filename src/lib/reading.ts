@@ -1,18 +1,21 @@
 import { createClient } from "@/lib/supabase/client";
 
-export async function upsertReadingProgress(chapter: number) {
+export async function upsertReadingProgress(chapter: number): Promise<{ error?: string }> {
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return {};
 
-  await supabase
+  const { error } = await supabase
     .from("reading_progress")
     .upsert(
       { user_id: user.id, chapter, read_at: new Date().toISOString() },
       { onConflict: "user_id,chapter" }
     );
+
+  if (error) return { error: "읽기 진행 저장에 실패했습니다." };
+  return {};
 }
 
 export async function getReadChapters(): Promise<number[]> {
@@ -48,14 +51,14 @@ export async function getMaxReadChapter(): Promise<number> {
   return data?.[0]?.chapter ?? 0;
 }
 
-export async function markChapterCompleted(chapter: number) {
+export async function markChapterCompleted(chapter: number): Promise<{ error?: string }> {
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return {};
 
-  await supabase
+  const { error } = await supabase
     .from("reading_progress")
     .upsert(
       {
@@ -67,6 +70,9 @@ export async function markChapterCompleted(chapter: number) {
       },
       { onConflict: "user_id,chapter" }
     );
+
+  if (error) return { error: "완독 기록 저장에 실패했습니다." };
+  return {};
 }
 
 export async function getCompletedChapters(): Promise<number[]> {
@@ -107,14 +113,14 @@ export async function getLastReadChapter(): Promise<{
   return { chapter: data[0].chapter, readAt: data[0].read_at };
 }
 
-export async function saveScrollPosition(chapter: number, position: number) {
+export async function saveScrollPosition(chapter: number, position: number): Promise<{ error?: string }> {
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return;
+  if (!user) return {};
 
-  await supabase
+  const { error } = await supabase
     .from("reading_progress")
     .upsert(
       {
@@ -125,6 +131,9 @@ export async function saveScrollPosition(chapter: number, position: number) {
       },
       { onConflict: "user_id,chapter" }
     );
+
+  if (error) return { error: "스크롤 위치 저장에 실패했습니다." };
+  return {};
 }
 
 export async function getScrollPosition(chapter: number): Promise<number> {

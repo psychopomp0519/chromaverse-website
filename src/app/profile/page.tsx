@@ -5,6 +5,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { getCompletedChapters, getLastReadChapter } from "@/lib/reading";
 import { getUnlockedNodes, getNextUnlock, ALL_WORLD_NODES, NODE_LABELS } from "@/lib/content-unlock";
+import { getReleasedChapterCount } from "@/lib/schedule";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<{ email?: string; created_at?: string } | null>(null);
@@ -43,7 +44,7 @@ export default function ProfilePage() {
         <h1 className="text-2xl font-bold text-(--color-text-primary)">로그인이 필요합니다</h1>
         <p className="mt-2 text-sm text-(--color-text-muted)">프로필을 보려면 로그인해주세요.</p>
         <Link
-          href="/auth/login"
+          href="/auth/login?returnTo=/profile"
           className="mt-6 inline-block rounded-lg border border-(--color-border-hover) px-6 py-2 text-sm text-(--color-text-secondary) transition-all hover:text-(--color-text-primary)"
         >
           로그인
@@ -54,7 +55,7 @@ export default function ProfilePage() {
 
   const unlocked = getUnlockedNodes(completed);
   const next = getNextUnlock(completed);
-  const totalChapters = 1; // 현재 공개된 화수
+  const totalChapters = getReleasedChapterCount();
   const progressPercent = totalChapters > 0 ? Math.round((completed.length / totalChapters) * 100) : 0;
   const estimatedReadingMinutes = completed.length * 15; // ~15분/화 추정
 
