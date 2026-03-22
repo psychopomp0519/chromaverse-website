@@ -19,6 +19,7 @@ export function Comments({ chapter }: CommentsProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -67,6 +68,8 @@ export function Comments({ chapter }: CommentsProps) {
 
     setContent("");
     setSubmitting(false);
+    setCooldown(true);
+    setTimeout(() => setCooldown(false), 10000);
     await loadComments();
   }
 
@@ -121,10 +124,10 @@ export function Comments({ chapter }: CommentsProps) {
             </span>
             <button
               type="submit"
-              disabled={submitting || !content.trim()}
+              disabled={submitting || cooldown || !content.trim()}
               className="rounded-lg bg-(--color-bg-elevated) px-4 py-1.5 text-sm font-medium transition-colors hover:bg-(--color-border-active) disabled:opacity-40"
             >
-              {submitting ? "등록 중..." : "댓글 등록"}
+              {submitting ? "등록 중..." : cooldown ? "잠시 후 다시" : "댓글 등록"}
             </button>
           </div>
           {error && (

@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { AnimateIn } from "@/components/common/AnimateIn";
+import { prefersReducedMotion } from "@/lib/motion";
 
 const CHANNELS = [
   { name: "아도르", color: "#E63946", desc: "열정, 파괴, 생명력" },
@@ -90,7 +91,11 @@ export function ColorScene() {
 
     runningRef.current = true;
     resize();
-    const frame = requestAnimationFrame(draw);
+    if (prefersReducedMotion()) {
+      draw(); // 한 프레임만 그리고 정지
+      runningRef.current = false;
+    }
+    const frame = prefersReducedMotion() ? 0 : requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
     return () => {
       runningRef.current = false;
@@ -105,6 +110,17 @@ export function ColorScene() {
     mouseRef.current = {
       x: (e.clientX - rect.left) / rect.width,
       y: (e.clientY - rect.top) / rect.height,
+    };
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mouseRef.current = {
+      x: (touch.clientX - rect.left) / rect.width,
+      y: (touch.clientY - rect.top) / rect.height,
     };
   }
 
@@ -125,6 +141,7 @@ export function ColorScene() {
           ref={canvasRef}
           className="absolute inset-0 h-full w-full rounded-2xl cursor-crosshair"
           onMouseMove={handleMouseMove}
+          onTouchMove={handleTouchMove}
         />
         {/* Channel labels overlay */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -144,6 +161,7 @@ export function ColorScene() {
                 viewport={{ once: true }}
                 onMouseEnter={() => setActiveChannel(i)}
                 onMouseLeave={() => setActiveChannel(null)}
+                onClick={() => setActiveChannel((prev) => prev === i ? null : i)}
               >
                 <div
                   className="mx-auto h-6 w-6 rounded-full border-2 border-(--color-bg-surface) transition-transform"

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ParticleBackground } from "@/components/core/ParticleBackground";
+import { prefersReducedMotion } from "@/lib/motion";
 
 const TITLE_CHARS = "CHROMAVERSE".split("");
 const SUBTITLE = "빛과 어둠이 만든 세계";
@@ -13,12 +14,17 @@ export function HeroScene() {
   const [startTyping, setStartTyping] = useState(false);
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setTyped(SUBTITLE);
+      setStartTyping(true);
+      return;
+    }
     const delay = setTimeout(() => setStartTyping(true), 1500);
     return () => clearTimeout(delay);
   }, []);
 
   useEffect(() => {
-    if (!startTyping) return;
+    if (!startTyping || prefersReducedMotion()) return;
     let i = 0;
     const interval = setInterval(() => {
       i++;

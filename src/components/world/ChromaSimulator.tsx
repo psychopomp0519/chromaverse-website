@@ -126,6 +126,7 @@ export function ChromaSimulator() {
               max={255}
               value={ch.value}
               onChange={(e) => ch.set(Number(e.target.value))}
+              aria-label={`${ch.label} 채널 (${ch.info.name})`}
               className="w-full accent-current"
               style={{ color: CHANNEL_COLORS[ch.key] }}
             />

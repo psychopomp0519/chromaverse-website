@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/motion";
 
 interface ParticleBackgroundProps {
   className?: string;
@@ -140,7 +141,22 @@ export function ParticleBackground({
     }
 
     resize();
-    animate();
+    if (prefersReducedMotion()) {
+      // 정적 한 프레임만 그림
+      if (ctx) {
+        ctx.clearRect(0, 0, logicalW, logicalH);
+        for (const p of particlesRef.current) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+    } else {
+      animate();
+    }
 
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", handleVisibility);

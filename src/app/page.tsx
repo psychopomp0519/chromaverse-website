@@ -51,7 +51,7 @@ export default function LandingPage() {
       <div
         ref={containerRef}
         className="snap-container -mt-16"
-        style={{ height: "100vh" }}
+        style={{ height: "100dvh" }}
       >
         <div ref={(el) => { sceneRefs.current[0] = el; }}>
           <HeroScene />

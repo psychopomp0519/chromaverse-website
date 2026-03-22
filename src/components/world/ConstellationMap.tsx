@@ -163,11 +163,17 @@ export function ConstellationMap() {
                   stroke={unlocked ? "none" : "var(--color-border-hover)"}
                   strokeWidth={unlocked ? 0 : 0.2}
                   opacity={dimmed ? 0.3 : 1}
+                  tabIndex={unlocked ? 0 : -1}
+                  role={unlocked ? "link" : undefined}
+                  aria-label={node.label}
                   onMouseEnter={() => setHovered(node.id)}
                   onMouseLeave={() => setHovered(null)}
+                  onFocus={() => setHovered(node.id)}
+                  onBlur={() => setHovered(null)}
                   style={{
                     cursor: unlocked ? "pointer" : "default",
                     transition: "all 0.3s ease",
+                    outline: "none",
                     filter: isHovered && unlocked ? `drop-shadow(0 0 3px ${node.color})` : "none",
                   }}
                 />

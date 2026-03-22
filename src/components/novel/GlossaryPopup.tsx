@@ -27,6 +27,8 @@ export function GlossaryPopup({ term, children }: GlossaryPopupProps) {
 
   const entry = lookupEntry(term);
 
+  const [openAbove, setOpenAbove] = useState(true);
+
   useEffect(() => {
     if (!open) return;
     function handleClick(e: MouseEvent) {
@@ -34,8 +36,22 @@ export function GlossaryPopup({ term, children }: GlossaryPopupProps) {
         setOpen(false);
       }
     }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
+  // 뷰포트 위치에 따라 위/아래 방향 결정
+  useEffect(() => {
+    if (!open || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setOpenAbove(rect.top > 200);
   }, [open]);
 
   if (!entry) return <>{children}</>;
@@ -44,12 +60,13 @@ export function GlossaryPopup({ term, children }: GlossaryPopupProps) {
     <span ref={ref} className="relative inline-block">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
         className="border-b border-dotted border-cognis/40 text-cognis-light transition-colors hover:border-cognis"
       >
         {children}
       </button>
       {open && (
-        <span className="absolute bottom-full left-1/2 z-50 mb-2 w-64 sm:w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-xl border border-(--color-border)/30 bg-(--color-bg-elevated) p-4 shadow-xl">
+        <span className={`absolute ${openAbove ? "bottom-full mb-2" : "top-full mt-2"} left-1/2 z-50 w-64 sm:w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-xl border border-(--color-border)/30 bg-(--color-bg-elevated) p-4 shadow-xl`}>
           <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-2">
             <span className="font-semibold text-(--color-text-primary)">{entry.term}</span>
             <span className="text-xs text-(--color-text-muted)">{entry.kanji}</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -16,22 +16,30 @@ export function ThemeToggle({ className, size = 20 }: ThemeToggleProps) {
   const [transitioning, setTransitioning] = useState(false);
   const [transitionTheme, setTransitionTheme] = useState<"dark" | "light">("dark");
 
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    return () => timersRef.current.forEach(clearTimeout);
+  }, []);
 
   const handleToggle = useCallback(() => {
+    if (transitioning) return;
     const next = theme === "dark" ? "light" : "dark";
     setTransitionTheme(next as "dark" | "light");
     setTransitioning(true);
 
-    // Apply theme mid-transition
-    setTimeout(() => {
-      setTheme(next);
-    }, 300);
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
 
-    setTimeout(() => {
+    timersRef.current.push(setTimeout(() => {
+      setTheme(next);
+    }, 300));
+
+    timersRef.current.push(setTimeout(() => {
       setTransitioning(false);
-    }, 700);
-  }, [theme, setTheme]);
+    }, 700));
+  }, [theme, setTheme, transitioning]);
 
   if (!mounted) {
     return <div className={cn("rounded-lg p-2", className)} style={{ width: size + 16, height: size + 16 }} />;

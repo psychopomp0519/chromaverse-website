@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { prefersReducedMotion } from "@/lib/motion";
 
 const QUOTE_TEXT =
   "이 기록을 시작한 이유는 나중에 쓰겠다.\n지금은 다만, 아무 일도 일어나지 않았던 어느 아침부터 적는다.\n나는 기록관이지, 모험가가 아니다.";
@@ -28,6 +29,10 @@ export function NovelScene() {
 
   useEffect(() => {
     if (!started) return;
+    if (prefersReducedMotion()) {
+      setDisplayed(QUOTE_TEXT);
+      return;
+    }
     let i = 0;
     const interval = setInterval(() => {
       i++;

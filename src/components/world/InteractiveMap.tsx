@@ -98,6 +98,7 @@ interface MapRegionProps {
 }
 
 function MapRegion({ id, path, color, selected, hovered, onHover, onSelect }: MapRegionProps) {
+  const region = REGION_MAP[id];
   return (
     <path
       d={path}
@@ -105,10 +106,17 @@ function MapRegion({ id, path, color, selected, hovered, onHover, onSelect }: Ma
       fillOpacity={selected ? 0.95 : hovered ? 0.85 : 0.6}
       stroke={selected ? "#FFFFFF" : hovered ? "#FFFFFF99" : "#FFFFFF22"}
       strokeWidth={selected ? 2 : 1}
-      className="cursor-pointer transition-all duration-200"
+      className="cursor-pointer transition-all duration-200 outline-none focus:stroke-white focus:stroke-2"
+      tabIndex={0}
+      role="button"
+      aria-label={region?.name || id}
+      aria-pressed={selected}
       onMouseEnter={() => onHover(id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onSelect(id)}
+      onFocus={() => onHover(id)}
+      onBlur={() => onHover(null)}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(id); } }}
     />
   );
 }
@@ -141,10 +149,17 @@ export function InteractiveMap() {
             fillOpacity={selectedId === "thedeep" ? 0.95 : hoveredId === "thedeep" ? 0.85 : 0.8}
             stroke={selectedId === "thedeep" ? "#FFFFFF" : hoveredId === "thedeep" ? "#FFFFFF99" : "#FFFFFF11"}
             strokeWidth={selectedId === "thedeep" ? 2 : 1}
-            className="cursor-pointer transition-all duration-200"
+            className="cursor-pointer transition-all duration-200 outline-none focus:stroke-white focus:stroke-2"
+            tabIndex={0}
+            role="button"
+            aria-label="더 딥"
+            aria-pressed={selectedId === "thedeep"}
             onMouseEnter={() => setHoveredId("thedeep")}
             onMouseLeave={() => setHoveredId(null)}
             onClick={() => handleSelect("thedeep")}
+            onFocus={() => setHoveredId("thedeep")}
+            onBlur={() => setHoveredId(null)}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleSelect("thedeep"); } }}
           />
 
           {/* Border ring */}
@@ -195,10 +210,17 @@ export function InteractiveMap() {
             fillOpacity={selectedId === "hakuten" ? 0.95 : hoveredId === "hakuten" ? 0.9 : 0.75}
             stroke={selectedId === "hakuten" ? "#FFFFFF" : hoveredId === "hakuten" ? "#FFFFFF99" : "#FFFFFF33"}
             strokeWidth={selectedId === "hakuten" ? 2 : 1}
-            className="cursor-pointer transition-all duration-200"
+            className="cursor-pointer transition-all duration-200 outline-none focus:stroke-white focus:stroke-2"
+            tabIndex={0}
+            role="button"
+            aria-label="하쿠텐"
+            aria-pressed={selectedId === "hakuten"}
             onMouseEnter={() => setHoveredId("hakuten")}
             onMouseLeave={() => setHoveredId(null)}
             onClick={() => handleSelect("hakuten")}
+            onFocus={() => setHoveredId("hakuten")}
+            onBlur={() => setHoveredId(null)}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleSelect("hakuten"); } }}
           />
 
           {/* ── Labels ── */}
