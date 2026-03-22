@@ -45,9 +45,7 @@ export function ReaderContent({ chapter, chapterNum, hasPrev, hasNext }: ReaderC
 
   // 읽기 기록 저장
   useEffect(() => {
-    upsertReadingProgress(chapterNum).then((res) => {
-      if (res.error) console.error("[reading] upsert failed:", res.error);
-    });
+    upsertReadingProgress(chapterNum);
     completedRef.current = false;
 
     // Restore scroll position: Supabase first, localStorage fallback
