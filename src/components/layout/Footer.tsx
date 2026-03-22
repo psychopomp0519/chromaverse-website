@@ -68,7 +68,7 @@ export function Footer() {
             </motion.p>
           </motion.div>
 
-          <span className="text-gradient-rgb text-lg font-bold">CHROMAVERSE</span>
+          <span className="text-lg font-bold text-(--color-text-primary)">CHROMAVERSE</span>
           <p className="text-xs text-(--color-text-muted)">
             &copy; {new Date().getFullYear()} Chromaverse. All rights reserved.
           </p>

@@ -41,10 +41,15 @@ export function ReadingProgress({ totalChapters }: ReadingProgressProps) {
           {readCount}/{total}화 ({percent}%)
         </span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-(--color-bg-elevated)">
+      <div className="relative h-2 overflow-hidden rounded-full bg-(--color-bg-elevated)">
         <div
           className="h-full rounded-full bg-gradient-to-r from-[var(--color-ador)] via-[var(--color-vitalis)] to-[var(--color-cognis)] transition-all duration-500"
           style={{ width: `${percent}%` }}
+          role="progressbar"
+          aria-valuenow={percent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`읽기 진행률 ${percent}%`}
         />
       </div>
     </div>

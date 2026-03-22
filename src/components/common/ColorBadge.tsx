@@ -26,15 +26,29 @@ interface ColorBadgeProps {
   className?: string;
 }
 
+const LABEL_MAP: Record<string, string> = {
+  ador: "R",
+  vitalis: "G",
+  cognis: "B",
+  suppress: "C",
+  erode: "M",
+  distort: "Y",
+  void: "K",
+  rgb: "RGB",
+  cmyk: "CMYK",
+};
+
 export function ColorBadge({ color, children, className }: ColorBadgeProps) {
+  const label = LABEL_MAP[color];
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium",
+        "inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium",
         COLOR_MAP[color] || "bg-(--color-bg-elevated) text-(--color-text-secondary)",
         className
       )}
     >
+      {label && <span className="font-bold opacity-60">{label}</span>}
       {children}
     </span>
   );

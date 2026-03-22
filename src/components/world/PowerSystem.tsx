@@ -101,7 +101,7 @@ function ChannelDetail({ channel, side }: { channel: AnyChannel; side: "rgb" | "
                     style={{ width: `${width}%` }}
                   />
                 </div>
-                <span className="w-32 shrink-0 text-[10px] text-(--color-text-secondary) hidden sm:block">
+                <span className="w-32 shrink-0 text-[10px] text-(--color-text-secondary)">
                   {range.description}
                 </span>
               </div>
@@ -136,30 +136,34 @@ export function PowerSystem() {
       {/* ── 섹션 1: 체계 소개 ── */}
       <div className="grid grid-cols-2 gap-3 text-center">
         <div className="rounded-xl border border-ador/20 bg-ador/5 p-4">
-          <p className="text-lg font-bold text-gradient-rgb">RGB</p>
+          <p className="text-lg font-bold text-ador">RGB<span className="ml-1 text-xs font-normal text-(--color-text-muted)">빛</span></p>
           <p className="text-xs text-(--color-text-muted)">빛의 체계 · 루미나스</p>
           <div className="mt-2 flex justify-center gap-2">
             {powerData.rgb.channels.map((ch) => (
               <div
                 key={ch.id}
-                className="h-4 w-4 rounded-full"
+                className="flex h-5 w-5 items-center justify-center rounded-full text-[8px] font-bold text-white"
                 style={{ backgroundColor: ch.color }}
                 title={ch.name}
-              />
+              >
+                {ch.id.toUpperCase()}
+              </div>
             ))}
           </div>
         </div>
         <div className="rounded-xl border border-suppress/20 bg-suppress/5 p-4">
-          <p className="text-lg font-bold text-(--color-text-primary)">CMYK</p>
+          <p className="text-lg font-bold text-(--color-text-primary)">CMYK<span className="ml-1 text-xs font-normal text-(--color-text-muted)">어둠</span></p>
           <p className="text-xs text-(--color-text-muted)">어둠의 체계 · 쿠로겐</p>
           <div className="mt-2 flex justify-center gap-2">
             {powerData.cmyk.channels.map((ch) => (
               <div
                 key={ch.id}
-                className="h-4 w-4 rounded-full border border-(--color-border)"
+                className="flex h-5 w-5 items-center justify-center rounded-full border border-(--color-border) text-[8px] font-bold text-white"
                 style={{ backgroundColor: ch.color }}
                 title={ch.name}
-              />
+              >
+                {ch.id.toUpperCase()}
+              </div>
             ))}
           </div>
         </div>
