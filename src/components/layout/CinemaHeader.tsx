@@ -20,7 +20,8 @@ export function CinemaHeader() {
       requestAnimationFrame(() => {
         const y = window.scrollY;
         setScrolled(y > 20);
-        setVisible(y < 20 || y < lastScrollY.current);
+        // 100px 이내에서는 항상 표시, 이후에는 스크롤 업 시만 표시
+        setVisible(y < 100 || y < lastScrollY.current - 5);
         lastScrollY.current = y;
         ticking = false;
       });

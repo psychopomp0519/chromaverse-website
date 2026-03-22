@@ -153,7 +153,7 @@ export function NovelTOC({ arcs, chapterSummaries }: NovelTOCProps) {
                       return (
                         <div
                           key={ch}
-                          className="flex items-center gap-3 rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-3 opacity-50"
+                          className="flex items-center gap-3 rounded-lg border border-(--color-border) bg-(--color-bg-deep) px-4 py-3"
                         >
                           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-(--color-bg-elevated) text-[10px] text-(--color-text-muted)">
                             🔒

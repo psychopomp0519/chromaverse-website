@@ -71,10 +71,10 @@
   --color-bg-elevated: #FFF8F0;
   --color-bg-overlay: rgba(245, 240, 232, 0.9);
 
-  /* Text — WCAG AAA vs #F5F0E8 */
+  /* Text — WCAG AA vs #F5F0E8 */
   --color-text-primary: #1A1A2E;
-  --color-text-secondary: #4A4A6A;
-  --color-text-muted: #8A8AA0;
+  --color-text-secondary: #3D3D5C;
+  --color-text-muted: #6A6A82;
 
   /* Border */
   --color-border: rgba(0, 0, 0, 0.08);

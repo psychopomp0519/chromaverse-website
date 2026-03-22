@@ -237,7 +237,7 @@ export function ConstellationMap() {
               className={`flex items-center gap-3 rounded-xl border p-4 transition-all ${
                 unlocked
                   ? "border-(--color-border) bg-(--color-bg-surface) hover:border-(--color-border-hover)"
-                  : "border-(--color-border) bg-(--color-bg-deep) opacity-50"
+                  : "border-(--color-border) bg-(--color-bg-deep)"
               }`}
             >
               <span

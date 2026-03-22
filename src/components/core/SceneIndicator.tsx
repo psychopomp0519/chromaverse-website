@@ -38,7 +38,8 @@ export function SceneIndicator({
               className={cn(
                 "absolute right-6 whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium",
                 "bg-(--color-bg-surface) border border-(--color-border)",
-                "opacity-0 transition-opacity group-hover:opacity-100",
+                "transition-opacity group-hover:opacity-100",
+                isActive ? "opacity-100" : "opacity-0",
                 "text-(--color-text-secondary)"
               )}
             >

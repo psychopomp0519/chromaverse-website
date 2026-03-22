@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ParticleBackground } from "@/components/core/ParticleBackground";
 import { prefersReducedMotion } from "@/lib/motion";
@@ -10,16 +11,18 @@ const TITLE_CHARS = "CHROMAVERSE".split("");
 const SUBTITLE = "빛과 어둠이 만든 세계";
 
 export function HeroScene() {
-  const [typed, setTyped] = useState("");
+  const [typed, setTyped] = useState(SUBTITLE);
   const [startTyping, setStartTyping] = useState(false);
 
   useEffect(() => {
     if (prefersReducedMotion()) {
-      setTyped(SUBTITLE);
       setStartTyping(true);
       return;
     }
-    const delay = setTimeout(() => setStartTyping(true), 1500);
+    const delay = setTimeout(() => {
+      setTyped("");
+      setStartTyping(true);
+    }, 1500);
     return () => clearTimeout(delay);
   }, []);
 
@@ -47,7 +50,7 @@ export function HeroScene() {
       />
       <ParticleBackground density={60} speed={0.3} interactive />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-(--color-bg-deep)" />
+      <div className="absolute inset-0 bg-gradient-to-b from-(--color-bg-deep)/40 via-(--color-bg-deep)/20 to-(--color-bg-deep)" />
 
       <div className="relative z-10 flex flex-col items-center gap-8 text-center">
         <div className="flex flex-col items-center gap-3">
@@ -88,6 +91,26 @@ export function HeroScene() {
           프리즈마폴로 태어난 세계 크로마라.
           렌과 묵렌이 빛과 어둠 사이에서 살아가는 이야기.
         </motion.p>
+
+        <motion.div
+          className="flex flex-col items-center gap-3 sm:flex-row"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 2.3 }}
+        >
+          <Link
+            href="/novel"
+            className="rounded-xl border border-(--color-accent-primary)/40 bg-(--color-accent-primary)/10 px-7 py-2.5 text-sm font-semibold text-(--color-text-primary) transition-all hover:bg-(--color-accent-primary)/20"
+          >
+            소설 읽기
+          </Link>
+          <Link
+            href="/world"
+            className="rounded-xl border border-(--color-border-hover) px-7 py-2.5 text-sm font-semibold text-(--color-text-secondary) transition-all hover:border-(--color-text-primary) hover:text-(--color-text-primary)"
+          >
+            세계관 탐험
+          </Link>
+        </motion.div>
       </div>
 
       <motion.div

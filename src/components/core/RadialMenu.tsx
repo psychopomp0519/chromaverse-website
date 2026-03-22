@@ -160,7 +160,8 @@ export function RadialMenu({ className }: { className?: string }) {
       <motion.button
         onClick={() => setOpen(!open)}
         className={cn(
-          "relative z-50 flex h-12 w-12 items-center justify-center rounded-full",
+          "relative z-50 flex items-center justify-center rounded-full",
+          "h-12 w-12 md:h-12 md:w-12",
           "bg-(--color-bg-surface) border border-(--color-border)",
           "text-(--color-text-primary) shadow-lg",
           "transition-colors hover:border-(--color-border-hover)",
@@ -187,6 +188,12 @@ export function RadialMenu({ className }: { className?: string }) {
           <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
       </motion.button>
+      {/* 모바일 힌트 라벨: 첫 방문 시 메뉴 버튼 위에 표시 */}
+      {!open && (
+        <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-(--color-bg-surface) border border-(--color-border) px-2 py-0.5 text-[10px] text-(--color-text-muted) shadow-sm md:hidden">
+          메뉴
+        </span>
+      )}
     </div>
   );
 }

@@ -24,10 +24,12 @@ const TEASERS = [
 ];
 
 function Counter({ value, inView }: { value: number; inView: boolean }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(value);
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || animated) return;
+    setAnimated(true);
     let current = 0;
     const step = Math.ceil(value / 40);
     const interval = setInterval(() => {
@@ -40,7 +42,7 @@ function Counter({ value, inView }: { value: number; inView: boolean }) {
       }
     }, 30);
     return () => clearInterval(interval);
-  }, [inView, value]);
+  }, [inView, value, animated]);
 
   return <span>{count}</span>;
 }
@@ -75,9 +77,10 @@ export function CTAScene() {
         src="/images/landing/cta-prismafall.webp"
         alt=""
         fill
-        className="object-cover opacity-15"
+        className="object-cover opacity-10"
         onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
       />
+      <div className="absolute inset-0 bg-(--color-bg-deep)/40" />
       <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
         {STATS.map((stat) => (
           <div key={stat.label} className="text-center">

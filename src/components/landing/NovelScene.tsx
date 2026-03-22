@@ -54,6 +54,7 @@ export function NovelScene() {
         className="object-cover opacity-20"
         onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
       />
+      <div className="absolute inset-0 bg-(--color-bg-deep)/30" />
       <div className="relative z-10 mx-auto max-w-2xl text-center">
         <motion.p
           className="text-xs font-medium tracking-[0.3em] uppercase text-(--color-text-muted)"

@@ -141,7 +141,7 @@ export default function ProfilePage() {
                 className={`rounded-lg border px-3 py-2 text-center text-xs transition-all ${
                   isUnlocked
                     ? "border-(--color-border-hover) bg-(--color-bg-elevated) text-(--color-text-primary)"
-                    : "border-(--color-border) bg-(--color-bg-deep) text-(--color-text-muted) opacity-50"
+                    : "border-(--color-border) bg-(--color-bg-deep) text-(--color-text-muted)"
                 }`}
               >
                 {isUnlocked ? "✓" : "🔒"} {NODE_LABELS[nodeId] || nodeId}

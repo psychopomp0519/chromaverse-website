@@ -47,8 +47,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-6 text-center">
           {/* Accent glow divider */}
-          <div className="h-px w-32 bg-gradient-to-r from-transparent via-ador/30 to-transparent" />
-          <div className="h-px w-24 -mt-5 bg-gradient-to-r from-transparent via-cognis/20 to-transparent" />
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-ador/50 to-transparent" />
 
           {/* World Teaser */}
           <motion.div

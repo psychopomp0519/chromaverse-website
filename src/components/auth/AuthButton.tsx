@@ -28,7 +28,13 @@ export function AuthButton() {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <span className="rounded-lg border border-(--color-border) px-3 py-1.5 text-xs text-(--color-text-muted)">
+        로그인
+      </span>
+    );
+  }
 
   if (user) {
     return (
