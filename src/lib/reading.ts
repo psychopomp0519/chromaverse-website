@@ -5,8 +5,12 @@ export async function upsertReadingProgress(chapter: number): Promise<{ error?: 
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return {};
+  if (!user) {
+    console.log("[reading] no user session — skipping upsert");
+    return {};
+  }
 
+  console.log("[reading] upserting progress for user:", user.id, "chapter:", chapter);
   const { error } = await supabase
     .from("reading_progress")
     .upsert(
@@ -14,7 +18,11 @@ export async function upsertReadingProgress(chapter: number): Promise<{ error?: 
       { onConflict: "user_id,chapter" }
     );
 
-  if (error) return { error: "읽기 진행 저장에 실패했습니다." };
+  if (error) {
+    console.error("[reading] upsert error:", error.message, error.code, error.details);
+    return { error: `읽기 진행 저장 실패: ${error.message}` };
+  }
+  console.log("[reading] upsert success");
   return {};
 }
 
