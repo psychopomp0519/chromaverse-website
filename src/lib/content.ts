@@ -59,7 +59,7 @@ export function getAllChapterSummaries(): ChapterSummary[] {
       title: data.title,
       arc: data.arc,
       volume: data.volume,
-      wordCount: data.content.replace(/\s/g, "").length,
+      wordCount: data.content.length,
     };
   });
 }
