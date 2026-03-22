@@ -57,7 +57,7 @@ export function GlossaryPopup({ term, children }: GlossaryPopupProps) {
   if (!entry) return <>{children}</>;
 
   return (
-    <span ref={ref} className="relative inline-block">
+    <span ref={ref} className="relative inline">
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
