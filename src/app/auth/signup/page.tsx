@@ -4,13 +4,15 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { getSafeReturnTo } from "@/lib/safe-redirect";
+import { translateAuthError } from "@/lib/auth-errors";
 
 function SignUpForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const returnTo = searchParams.get("returnTo") || "/";
+  const returnTo = getSafeReturnTo(searchParams.get("returnTo"));
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,12 +23,12 @@ function SignUpForm() {
     const supabase = createClient();
 
     const { error } = await supabase.auth.signUp({
-      email: formData.get("email") as string,
+      email: (formData.get("email") as string).trim(),
       password: formData.get("password") as string,
     });
 
     if (error) {
-      setError(error.message);
+      setError(translateAuthError(error.message));
       setLoading(false);
       return;
     }
@@ -49,6 +51,7 @@ function SignUpForm() {
             name="email"
             type="email"
             required
+            autoComplete="email"
             className="w-full rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-2.5 text-sm text-(--color-text-primary) outline-none transition-colors focus:border-(--color-border-active)"
             placeholder="email@example.com"
           />
@@ -64,6 +67,7 @@ function SignUpForm() {
             type="password"
             required
             minLength={6}
+            autoComplete="new-password"
             className="w-full rounded-lg border border-(--color-border) bg-(--color-bg-surface) px-4 py-2.5 text-sm text-(--color-text-primary) outline-none transition-colors focus:border-(--color-border-active)"
             placeholder="6자 이상"
           />

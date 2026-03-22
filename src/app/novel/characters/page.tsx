@@ -34,9 +34,21 @@ export default function CharactersPage() {
       />
 
       <div className="grid gap-6 sm:grid-cols-2">
-        {mainCharacters.map((char) => (
-          <CharacterCard key={char.id} character={char} />
-        ))}
+        {mainCharacters.map((char) => {
+          const content = <CharacterCard key={char.id} character={char} />;
+          if ("spoilerAfter" in char && char.spoilerAfter) {
+            return (
+              <SpoilerGuard
+                key={char.id}
+                visibleAfter={char.spoilerAfter}
+                placeholder={`이 캐릭터는 소설 ${char.spoilerAfter}화 이후에 공개됩니다.`}
+              >
+                {content}
+              </SpoilerGuard>
+            );
+          }
+          return content;
+        })}
       </div>
 
       {/* 조연 */}

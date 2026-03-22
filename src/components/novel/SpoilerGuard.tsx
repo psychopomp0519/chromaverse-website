@@ -19,9 +19,7 @@ export function SpoilerGuard({
   children,
 }: SpoilerGuardProps) {
   const [revealed, setRevealed] = useState(false);
-  const [userMaxChapter, setUserMaxChapter] = useState(
-    spoilerMap.currentMaxChapter
-  );
+  const [userMaxChapter, setUserMaxChapter] = useState(0);
 
   useEffect(() => {
     async function loadUserProgress() {

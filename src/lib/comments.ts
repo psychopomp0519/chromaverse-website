@@ -22,7 +22,7 @@ export async function getComments(
 
   const { data, error } = await supabase
     .from("comments")
-    .select("*")
+    .select("id, user_id, chapter, content, created_at, email")
     .eq("chapter", chapter)
     .order("created_at", { ascending: false })
     .range(from, to);

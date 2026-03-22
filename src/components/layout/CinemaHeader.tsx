@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/core/ThemeToggle";
@@ -10,7 +10,7 @@ import { AuthButton } from "@/components/auth/AuthButton";
 export function CinemaHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     let ticking = false;
@@ -20,14 +20,14 @@ export function CinemaHeader() {
       requestAnimationFrame(() => {
         const y = window.scrollY;
         setScrolled(y > 20);
-        setVisible(y < 20 || y < lastScrollY);
-        setLastScrollY(y);
+        setVisible(y < 20 || y < lastScrollY.current);
+        lastScrollY.current = y;
         ticking = false;
       });
     }
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <motion.header

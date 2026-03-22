@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import {
   getComments,
@@ -22,30 +22,23 @@ export function Comments({ chapter }: CommentsProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
+  const nextPageRef = useRef(1);
 
-  const loadComments = useCallback(async (reset = true) => {
-    const p = reset ? 0 : page;
-    const result = await getComments(chapter, p);
+  const loadComments = useCallback(async () => {
+    const result = await getComments(chapter, 0);
     if (result.error) {
       setLoadError(result.error);
       setLoading(false);
-      setLoadingMore(false);
       return;
     }
     setLoadError(null);
-    if (reset) {
-      setComments(result.comments);
-      setPage(0);
-    } else {
-      setComments((prev) => [...prev, ...result.comments]);
-    }
+    setComments(result.comments);
+    nextPageRef.current = 1;
     setHasMore(result.hasMore);
     setLoading(false);
-    setLoadingMore(false);
-  }, [chapter, page]);
+  }, [chapter]);
 
   useEffect(() => {
     async function init() {
@@ -186,10 +179,13 @@ export function Comments({ chapter }: CommentsProps) {
             <button
               onClick={async () => {
                 setLoadingMore(true);
-                setPage((p) => p + 1);
-                const result = await getComments(chapter, page + 1);
-                setComments((prev) => [...prev, ...result.comments]);
-                setHasMore(result.hasMore);
+                const p = nextPageRef.current;
+                const result = await getComments(chapter, p);
+                if (!result.error) {
+                  setComments((prev) => [...prev, ...result.comments]);
+                  setHasMore(result.hasMore);
+                  nextPageRef.current = p + 1;
+                }
                 setLoadingMore(false);
               }}
               disabled={loadingMore}

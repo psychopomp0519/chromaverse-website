@@ -32,6 +32,7 @@ for (const b of scheduleData.batch) {
 
 const { startChapter, startDate, intervalDays } = scheduleData.recurring;
 const recurringStart = new Date(startDate);
+const MAX_CHAPTER = scheduleData.maxChapter;
 
 /**
  * 임의의 화수에 대해 공개일을 반환.
@@ -50,6 +51,7 @@ export function getReleaseDate(chapter: number): Date {
 /* ---------- public API ---------- */
 
 export function isReleased(chapter: number, now: Date = new Date()): boolean {
+  if (chapter > MAX_CHAPTER) return false;
   return now >= getReleaseDate(chapter);
 }
 
@@ -83,8 +85,7 @@ export function getNextRelease(now: Date = new Date()): NextRelease | null {
       };
     }
     ch++;
-    // 안전장치: 충분히 먼 미래까지 탐색
-    if (ch > startChapter + 1000) return null;
+    if (ch > MAX_CHAPTER) return null;
   }
 }
 
@@ -92,19 +93,16 @@ export function getAllChapterStatuses(allChapters: number[], now: Date = new Dat
   return allChapters.map((ch) => getChapterStatus(ch, now));
 }
 
-/** 현재 시점 기준 공개된 화수 반환 (batch + recurring) */
+/** 현재 시점 기준 공개된 화수 반환 (batch + recurring, maxChapter 이내) */
 export function getReleasedChapterCount(now: Date = new Date()): number {
-  // batch 중 공개된 수
   let count = 0;
-  for (const [, date] of batchMap) {
-    if (now >= date) count++;
+  for (const [ch, date] of batchMap) {
+    if (ch <= MAX_CHAPTER && now >= date) count++;
   }
-  // recurring 중 공개된 수
   let ch = startChapter;
-  while (now >= getReleaseDate(ch)) {
+  while (ch <= MAX_CHAPTER && now >= getReleaseDate(ch)) {
     count++;
     ch++;
-    if (ch > startChapter + 1000) break;
   }
   return count;
 }

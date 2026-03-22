@@ -47,6 +47,7 @@ export function GlossarySearch({ entries }: GlossarySearchProps) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="용어 검색..."
+          aria-label="용어 검색"
           className="w-full rounded-xl border border-(--color-border) bg-(--color-bg-elevated) px-4 py-3 text-sm text-(--color-text-primary) placeholder:text-(--color-text-muted) focus:border-cognis/30 focus:outline-none"
         />
       </div>
@@ -70,9 +71,15 @@ export function GlossarySearch({ entries }: GlossarySearchProps) {
       <p className="mb-4 text-xs text-(--color-text-muted)">{filtered.length}개 용어</p>
 
       <div className="space-y-3">
-        {filtered.map((entry) => (
-          <GlossaryCard key={entry.id} entry={entry} allEntries={entries} />
-        ))}
+        {filtered.length === 0 ? (
+          <p className="py-8 text-center text-sm text-(--color-text-muted)">
+            검색 결과가 없습니다.
+          </p>
+        ) : (
+          filtered.map((entry) => (
+            <GlossaryCard key={entry.id} entry={entry} allEntries={entries} />
+          ))
+        )}
       </div>
     </>
   );

@@ -18,9 +18,11 @@ const CHANNELS = [
 export function ColorScene() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const runningRef = useRef(true);
   const [activeChannel, setActiveChannel] = useState<number | null>(null);
 
   const draw = useCallback(() => {
+    if (!runningRef.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -86,10 +88,12 @@ export function ColorScene() {
       ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
+    runningRef.current = true;
     resize();
     const frame = requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
     return () => {
+      runningRef.current = false;
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
     };
